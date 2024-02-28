@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SoGen_AccountManager1.Models.Domain;
 
 namespace SoGen_AccountManager1.Data;

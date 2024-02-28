@@ -2,6 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SoGen_AccountManager1.Data;
+using SoGen_AccountManager1.Repositories.Interface;
+using SoGen_AccountManager1.Repositories.Implementation;
+using SoGen_AccountManager1.Interface;
+using SoGen_AccountManager1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +19,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+builder.Services.AddScoped<IApiService, ApiService>();
 
 var app = builder.Build();
 

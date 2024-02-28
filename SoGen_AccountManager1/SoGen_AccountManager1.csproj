@@ -12,6 +12,12 @@
   <ItemGroup>
     <None Remove="Models\" />
     <None Remove="Models\Domain\" />
+    <None Remove="Controllers\" />
+    <None Remove="Models\DTO\" />
+    <None Remove="Repositories\" />
+    <None Remove="Repositories\Implementation\" />
+    <None Remove="Services\" />
+    <None Remove="Interface\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
@@ -35,10 +41,17 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.12" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Models\Domain\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Models\DTO\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Repositories\Implementation\" />
+    <Folder Include="Services\" />
+    <Folder Include="Interface\" />
   </ItemGroup>
 </Project>

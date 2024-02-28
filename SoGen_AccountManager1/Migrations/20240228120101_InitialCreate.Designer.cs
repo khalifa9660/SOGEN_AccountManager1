@@ -11,7 +11,7 @@ using SoGen_AccountManager1.Data;
 namespace SoGen_AccountManager1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240227180819_InitialCreate")]
+    [Migration("20240228120101_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -31,34 +31,38 @@ namespace SoGen_AccountManager1.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Birth")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("Injured")
+                    b.Property<bool?>("Injured")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("LastName")
-                        .HasColumnType("int");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Nationality")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Photo")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Weight")
-                        .IsRequired()
+                    b.Property<string>("Place")
                         .HasColumnType("longtext");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
