@@ -1,5 +1,5 @@
 ﻿using System;
-namespace SoGen_AccountManager1.Models.Domain
+namespace SoGen_AccountManager1.Models.ApiModels
 {
 	public class Team
 	{
@@ -23,7 +23,7 @@ namespace SoGen_AccountManager1.Models.Domain
 
         public string Venue_city { get; set; }
 
-        public string Venue_adress { get; set; }
+        public string Venue_address { get; set; }
 
         public int Venue_capacity { get; set; }
 

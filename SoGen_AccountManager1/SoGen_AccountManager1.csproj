@@ -18,6 +18,7 @@
     <None Remove="Repositories\Implementation\" />
     <None Remove="Services\" />
     <None Remove="Interface\" />
+    <None Remove="Models\ApiModels\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
@@ -32,6 +33,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.16"><IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 <PrivateAssets>all</PrivateAssets>
 </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
@@ -53,5 +55,6 @@
     <Folder Include="Repositories\Implementation\" />
     <Folder Include="Services\" />
     <Folder Include="Interface\" />
+    <Folder Include="Models\ApiModels\" />
   </ItemGroup>
 </Project>
