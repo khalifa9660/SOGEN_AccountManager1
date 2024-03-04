@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SoGen_AccountManager1.Interface;
 using SoGen_AccountManager1.Models.ApiModels;
@@ -18,7 +19,7 @@ namespace SoGen_AccountManager1.Controllers
             _apiService = apiService;
         }
 
-        [HttpGet("Countries")]
+        [HttpGet(Name = "Countries"), Authorize]
         public async Task<IActionResult> GetCountriesFromApi()
         {
             try

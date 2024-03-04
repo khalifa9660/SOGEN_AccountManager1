@@ -6,9 +6,9 @@ namespace SoGen_AccountManager1.Models.Domain
 	{
 		public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public string LastName { get; set; }
+        public string LastName { get; set; } = string.Empty;
 
         public int Age { get; set; }
 
@@ -26,7 +26,7 @@ namespace SoGen_AccountManager1.Models.Domain
 
         public bool? Injured { get; set; }
 
-        public string Photo { get; set; }
+        public string? Photo { get; set; }
     }
 }
 
