@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SoGen_AccountManager1.Interface;
@@ -19,7 +20,7 @@ namespace SoGen_AccountManager1.Controllers
             _apiService = apiService;
         }
 
-        [HttpGet(Name = "Countries"), Authorize]
+        [HttpGet(Name = "Countries")]
         public async Task<IActionResult> GetCountriesFromApi()
         {
             try
@@ -66,6 +67,11 @@ namespace SoGen_AccountManager1.Controllers
                 return StatusCode(500, $"Une erreur s'est produite lors de la récupération des équipes : {ex.Message}");
             }
         }
+
+        //To add an authorisation to get the data
+        //[HttpGet("{season}/{leagueId}")]
+        //[Authorize (AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
 
     }
 }

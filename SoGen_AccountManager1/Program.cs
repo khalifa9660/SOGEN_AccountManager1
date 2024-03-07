@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using SoGen_AccountManager1.Models.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,31 +23,35 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddControllers();
 // Registering Swagger API Services
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection(key: "JwtConfig"));
+
+// Specification of default Jwt Authentication; Configuration of Web APi to indic the type of authentication I went to implement and waht key I'm going to use for the authentication
+builder.Services.AddAuthentication(configureOptions: options =>
 {
-    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(jwt =>
     {
-        In = ParameterLocation.Header,
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey
+        var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfig:Secret").Value);
+        jwt.SaveToken = true;
+        jwt.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            RequireExpirationTime = false,
+            ValidateLifetime = false
+        };
     });
-
-    options.OperationFilter<SecurityRequirementsOperationFilter>();
-});
-builder.Services.AddAuthentication().AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        ValidateAudience = false,
-        ValidateIssuer = false,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                builder.Configuration.GetSection("AppSettings:Token").Value!))
-    };
-});
-
-
-
 
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 builder.Services.AddScoped<IApiService, ApiService>();
@@ -68,6 +73,8 @@ app.UseCors(options =>
     options.AllowAnyOrigin();
     options.AllowAnyMethod();
 });
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

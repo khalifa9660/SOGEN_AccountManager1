@@ -3,7 +3,7 @@ namespace SoGen_AccountManager1.Models.Domain
 {
 	public class Team
 	{
-        public int Team_id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; } = string.Empty;
 
