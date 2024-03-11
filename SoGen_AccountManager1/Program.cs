@@ -48,10 +48,15 @@ builder.Services.AddAuthentication(configureOptions: options =>
             IssuerSigningKey = new SymmetricSecurityKey(key),
             ValidateIssuer = false,
             ValidateAudience = false,
-            RequireExpirationTime = false,
-            ValidateLifetime = false
+            RequireExpirationTime = true,
+            ValidateLifetime = true
         };
     });
+
+builder.Services.AddCors(options => options.AddPolicy("FrontEnd", policy =>
+{
+    policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyHeader();
+}));
 
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 builder.Services.AddScoped<IApiService, ApiService>();
@@ -67,16 +72,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors(options =>
-{
-    options.AllowAnyHeader();
-    options.AllowAnyOrigin();
-    options.AllowAnyMethod();
-});
-
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseCors("FrontEnd");
 
 app.MapControllers();
 

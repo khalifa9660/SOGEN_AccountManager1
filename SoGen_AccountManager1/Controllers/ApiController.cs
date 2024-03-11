@@ -10,17 +10,18 @@ namespace SoGen_AccountManager1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 
-    public class ExternalApiController : ControllerBase
+    public class FootBallApiController : ControllerBase
     {
         private readonly IApiService _apiService;
 
-        public ExternalApiController(IApiService apiService)
+        public FootBallApiController(IApiService apiService)
         {
             _apiService = apiService;
         }
 
-        [HttpGet(Name = "Countries")]
+        [HttpGet("Countries")]
         public async Task<IActionResult> GetCountriesFromApi()
         {
             try

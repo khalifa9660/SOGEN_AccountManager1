@@ -31,7 +31,7 @@ namespace SoGen_AccountManager1.Controllers
 			_userManager = userManager;
 		}
 
-		[HttpPost("register")]
+		[HttpPost("Register")]
 
 			public async Task<ActionResult> Register([FromBody] UserRegistrationRequestDto requestDto)
 		{
@@ -46,7 +46,7 @@ namespace SoGen_AccountManager1.Controllers
 				var newUser = new IdentityUser()
 				{
 					Email = requestDto.Email,
-					UserName = requestDto.Email
+					UserName = requestDto.Name
 
 				};
 
@@ -106,7 +106,7 @@ namespace SoGen_AccountManager1.Controllers
 
 
 
-		[HttpPost("login")]
+		[HttpPost("Login")]
 
 		public async Task<ActionResult> Login([FromBody] UserLoginRequestDto requestDto)
 		{
