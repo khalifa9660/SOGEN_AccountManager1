@@ -37,13 +37,13 @@ namespace SoGen_AccountManager1.Controllers
         }
 
 
-        [HttpGet("{leagueId}")]
+        [HttpGet("Teams/{leagueId}")]
         public async Task<IActionResult> GetTeamsFromApi(int leagueId)
         {
             try
             {
 
-                var Teams = await _apiService.GetTeamsFromExternalApi(leagueId);
+                var Teams = await _apiService.GetTeamsFromApi(leagueId);
 
                 return Ok(Teams);
             }
@@ -54,8 +54,29 @@ namespace SoGen_AccountManager1.Controllers
         }
 
 
-        [HttpGet("{season}/{leagueId}")]
-        public async Task<ActionResult> GetPlayersFromApi(int season, int leagueId)
+        [HttpGet("Players/{team}")]
+        public async Task<ActionResult> GetPlayersFromApi(int team)
+        {
+            try
+            {
+                var (teamInfo, players) = await _apiService.GetTeamAndPlayersFromExternalApi(team);
+
+                var responseData = new
+                {
+                    Team = teamInfo,
+                    Players = players
+                };
+
+                return Ok(responseData);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Une erreur s'est produite lors de la récupération des équipes : {ex.Message}");
+            }
+        }
+
+        [HttpGet("NationalPlayers/{season}/{leagueId}")]
+        public async Task<ActionResult> GetNationalPlayersFromApi(int season, int leagueId)
         {
 
             try
@@ -68,12 +89,6 @@ namespace SoGen_AccountManager1.Controllers
                 return StatusCode(500, $"Une erreur s'est produite lors de la récupération des équipes : {ex.Message}");
             }
         }
-
-        //To add an authorisation to get the data
-        //[HttpGet("{season}/{leagueId}")]
-        //[Authorize (AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-
-
     }
 }
 
