@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -75,14 +76,21 @@ namespace SoGen_AccountManager1.Controllers
             }
         }
 
-        [HttpGet("NationalPlayers/{season}/{leagueId}")]
-        public async Task<ActionResult> GetNationalPlayersFromApi(int season, int leagueId)
+        [HttpGet("HistoryTeamMembers/{season}/{leagueId}")]
+        public async Task<ActionResult> GetHistoryTeamsFromApi(int season, int leagueId)
         {
 
             try
             {
-                var players = await _apiService.GetPlayersFromExternalApi(season, leagueId);
-                return Ok(players);
+                var (players, coach) = await _apiService.GetHistoryTeamMembersFromExternalApi(season, leagueId);
+
+                var responseData = new
+                {
+                    Players = players,
+                    Coachs = coach
+                };
+
+                return Ok(responseData);
             }
             catch (Exception ex)
             {

@@ -30,13 +30,17 @@ namespace SoGen_AccountManager1.Models.ApiModels
         public string logo { get; set; }
     }
 
-    public class NationalPlayer
+    public class HistoryTeamMembers
     {
         public string Number { get; set; }
 
         public string player { get; set; }
     }
 
+    public class Coach
+    {
+        public string Name { get; set; }
+    }
 
 
 }

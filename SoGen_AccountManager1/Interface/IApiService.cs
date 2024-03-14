@@ -15,9 +15,8 @@ namespace SoGen_AccountManager1.Interface
 
         Task<(TeamPlayer, Player[])> GetTeamAndPlayersFromExternalApi(int team);
 
-        Task<NationalPlayer[]> GetPlayersFromExternalApi(int season, int leagueId);
+        Task<(HistoryTeamMembers[], Coach[])> GetHistoryTeamMembersFromExternalApi(int season, int leagueId);
 
-
-    }
+        }
 }
 

@@ -142,50 +142,48 @@ namespace SoGen_AccountManager1.Services
         }
 
 
-        public async Task<NationalPlayer[]> GetPlayersFromExternalApi(int season, int leagueId)
+        public async Task<(HistoryTeamMembers[], Coach[])> GetHistoryTeamMembersFromExternalApi(int season, int leagueId)
         {
+            var client = new HttpClient();
+
+            string apiUrl = $"https://api-football-v1.p.rapidapi.com/players/{season}/{leagueId}";
+
+            var request = new HttpRequestMessage
             {
-                var client = new HttpClient();
-
-                string apiUrl = $"https://api-football-v1.p.rapidapi.com/players/{season}/{leagueId}";
-
-                var request = new HttpRequestMessage
-                {
-                    Method = HttpMethod.Get,
-                    RequestUri = new Uri(apiUrl),
-                    Headers =
-                {
-                    { "X-RapidAPI-Key", "763f1903cemshf1814091940340dp16dfe1jsnb7781ae9d30a" },
-                    { "X-RapidAPI-Host", "api-football-v1.p.rapidapi.com" },
-                    { "access-control-allow-credentials", "true" },
-                    { "access-control-allow-headers", "x-rapidapi-key, x-apisports-key, x-rapidapi-host" },
-                    { "access-control-allow-methods", "GET, OPTIONS" },
-                    { "access-control-allow-origin", "*" },
-                    { "server", "RapidAPI-1.2.8" },
-                    { "vary", "Accept-Encoding" },
-                    { "x-rapidapi-region", "AWS - eu-central-1" },
-                    { "x-rapidapi-version", "1.2.8" },
-                    { "x-ratelimit-requests-limit", "100" }
-                }
-                };
-
-                using (var response = await client.SendAsync(request))
-                {
-                    response.EnsureSuccessStatusCode();
-                    var body = await response.Content.ReadAsStringAsync();
-                    // Désérialiser le corps de la réponse en tant qu'objet JObject
-                    var responseObject = JObject.Parse(body);
-
-                    // Extraire le tableau de pays (s'il est encapsulé dans un objet)
-                    var PlayerArray = responseObject["api"]["players"].ToObject<NationalPlayer[]>();
-                    return PlayerArray;
-                }
-
-            }
-
-
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(apiUrl),
+                Headers =
+        {
+            { "X-RapidAPI-Key", "763f1903cemshf1814091940340dp16dfe1jsnb7781ae9d30a" },
+            { "X-RapidAPI-Host", "api-football-v1.p.rapidapi.com" },
+            { "access-control-allow-credentials", "true" },
+            { "access-control-allow-headers", "x-rapidapi-key, x-apisports-key, x-rapidapi-host" },
+            { "access-control-allow-methods", "GET, OPTIONS" },
+            { "access-control-allow-origin", "*" },
+            { "server", "RapidAPI-1.2.8" },
+            { "vary", "Accept-Encoding" },
+            { "x-rapidapi-region", "AWS - eu-central-1" },
+            { "x-rapidapi-version", "1.2.8" },
+            { "x-ratelimit-requests-limit", "100" }
         }
+            };
 
+            using (var response = await client.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();
+                var body = await response.Content.ReadAsStringAsync();
+                // Désérialiser le corps de la réponse en tant qu'objet JObject
+                var responseObject = JObject.Parse(body);
+
+                // Extraire le tableau de joueurs
+                var playerArray = responseObject["api"]["players"].ToObject<HistoryTeamMembers[]>();
+
+                // Extraire le tableau de coachs et les transformer en objets Coach
+                var coachsArray = responseObject["api"]["coachs"].Select(coachName => new Coach { Name = (string)coachName }).ToArray();
+
+                return (playerArray, coachsArray);
+            }
+        }
     }
-}
 
+}

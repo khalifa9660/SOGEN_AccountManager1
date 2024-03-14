@@ -29,10 +29,9 @@ namespace SoGen_AccountManager1.Controllers
             var player = new Player
             {
                 Name = req.Name,
-                LastName = req.LastName,
                 Age = req.Age,
-                Weight = req.Weight,
-                Birth = req.Birth,
+                Number = req.Number,
+                Position = req.Position,
                 Photo = req.Photo
             };
 
@@ -41,12 +40,10 @@ namespace SoGen_AccountManager1.Controllers
             //Domain model to Dto
             var response = new PlayerDto
             {
-                Id = player.Id,
                 Name = player.Name,
-                LastName = player.LastName,
                 Age = player.Age,
-                Weight = player.Weight,
-                Birth = player.Birth,
+                Number = player.Number,
+                Position = player.Position,
                 Photo = player.Photo
             };
 
