@@ -11,7 +11,7 @@ using SoGen_AccountManager1.Data;
 namespace SoGen_AccountManager1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240313223659_First migration")]
+    [Migration("20240314161151_First migration")]
     partial class Firstmigration
     {
         /// <inheritdoc />
@@ -220,9 +220,9 @@ namespace SoGen_AccountManager1.Migrations
 
             modelBuilder.Entity("SoGen_AccountManager1.Models.Domain.Player", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
@@ -249,9 +249,9 @@ namespace SoGen_AccountManager1.Migrations
 
             modelBuilder.Entity("SoGen_AccountManager1.Models.Domain.Team", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -260,33 +260,12 @@ namespace SoGen_AccountManager1.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Founded")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Is_national")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<string>("Logo")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Venue_adress")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("Venue_capacity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Venue_city")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Venue_name")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Venue_surface")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Diagnostics.Metrics;
-using System.Net.Http.Headers;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using SoGen_AccountManager1.Interface;
 using SoGen_AccountManager1.Models.ApiModels;
 
@@ -132,7 +126,7 @@ namespace SoGen_AccountManager1.Services
                 var responseObject = JObject.Parse(body);
 
                 // Désérialiser les informations de l'équipe
-                var teamInfo = responseObject["response"][0]["team"].ToObject<TeamPlayer>();
+               var teamInfo = responseObject["response"][0]["team"].ToObject<TeamPlayer>();
 
                 // Désérialiser le tableau de joueurs
                 var playersArray = responseObject["response"][0]["players"].ToObject<Player[]>();

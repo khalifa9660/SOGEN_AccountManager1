@@ -26,8 +26,6 @@ namespace SoGen_AccountManager1.Models.ApiModels
         public string Venue_address { get; set; }
 
         public int Venue_capacity { get; set; }
-
-
     }
 }
 
