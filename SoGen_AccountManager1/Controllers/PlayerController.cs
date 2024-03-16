@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SoGen_AccountManager1.Data;
@@ -13,11 +15,12 @@ namespace SoGen_AccountManager1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
+
     public class PlayerController : ControllerBase
     {
         private readonly IPlayerRepository _playerRepository;
-
-        private readonly ApplicationDbContext dbContext;
 
         public PlayerController(IPlayerRepository playerRepository)
         {
