@@ -101,19 +101,21 @@ namespace SoGen_AccountManager1.Controllers
         }
 
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        [HttpDelete("Delete/{ids}")]
+        public async Task<IActionResult> DeleteMultiple(string ids)
         {
+            // Séparer les identifiants et les convertir en Guid
+            var idList = ids.Split(',').Select(Guid.Parse).ToList();
 
-            bool isDeleted = await _playerRepository.DeletePlayer(id);
+            bool isDeleted = await _playerRepository.DeletePlayers(idList);
 
             if (isDeleted)
             {
-                return Ok(); 
+                return Ok();
             }
             else
             {
-                return NotFound();
+                return NotFound("One or more players not found.");
             }
         }
 

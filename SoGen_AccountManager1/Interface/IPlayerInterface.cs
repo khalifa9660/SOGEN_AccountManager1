@@ -11,7 +11,7 @@ namespace SoGen_AccountManager1.Repositories.Interface
 
 		Task<Player> EditPlayer(Player player);
 
-		Task<bool> DeletePlayer(Guid id);
+		Task<bool> DeletePlayers(IEnumerable<Guid> ids);
     }
 }
 

@@ -49,20 +49,31 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             return editPlayer;
         }
 
-        public async Task<bool> DeletePlayer(Guid id)
+        public async Task<bool> DeletePlayers(IEnumerable<Guid> ids)
         {
-            var playerToDelete = await dbContext.Players.FindAsync(id);
-
-            if (playerToDelete != null)
+            bool allDeleted = true;
+            foreach (var id in ids)
             {
-                dbContext.Players.Remove(playerToDelete);
-                await dbContext.SaveChangesAsync();
-                return true;
+                var playerToDelete = await dbContext.Players.FindAsync(id);
+                if (playerToDelete != null)
+                {
+                    dbContext.Players.Remove(playerToDelete);
+                }
+                else
+                {
+                    // Si un joueur avec l'ID spécifié n'est pas trouvé, marquez la suppression comme échouée
+                    allDeleted = false;
+                }
             }
 
-            return false;
-        }
+            if (allDeleted)
+            {
+                // Faites l'appel SaveChangesAsync ici pour appliquer toutes les suppressions en une seule transaction
+                await dbContext.SaveChangesAsync();
+            }
 
+            return allDeleted;
+        }
 
     }
 }
