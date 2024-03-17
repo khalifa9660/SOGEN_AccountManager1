@@ -31,14 +31,6 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             return players.ToArray();
         }
 
-
-        public async Task<Player> GetPlayerToEdit(Guid id)
-        {
-            var player = await dbContext.Players.FindAsync(id);
-
-            return player;
-        }
-
         public async Task<Player> EditPlayer(Player player)
         {
            var editPlayer = await dbContext.Players.FindAsync(player.Id);
@@ -57,18 +49,18 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             return editPlayer;
         }
 
-        public async Task<bool> DeletePlayer(Player player)
+        public async Task<bool> DeletePlayer(Guid id)
         {
-            var playerToDelete = await dbContext.Players.FindAsync(player.Id);
+            var playerToDelete = await dbContext.Players.FindAsync(id);
 
             if (playerToDelete != null)
             {
                 dbContext.Players.Remove(playerToDelete);
                 await dbContext.SaveChangesAsync();
-                return true; // Le joueur a été supprimé avec succès
+                return true;
             }
 
-            return false; // Le joueur n'a pas été trouvé dans la base de données
+            return false;
         }
 
 

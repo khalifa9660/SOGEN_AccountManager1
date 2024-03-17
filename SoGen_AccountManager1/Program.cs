@@ -55,7 +55,7 @@ builder.Services.AddAuthentication(configureOptions: options =>
 
 builder.Services.AddCors(options => options.AddPolicy("FrontEnd", policy =>
 {
-    policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyHeader();
+    policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
 }));
 
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();

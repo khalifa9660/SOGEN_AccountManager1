@@ -1,9 +1,9 @@
 ﻿using System;
 namespace SoGen_AccountManager1.Models.DTO
 {
-	public class PlayerDto
+	public class UpdatePlayerDto
 	{
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } // Ajout de l'Id
 
         public string Name { get; set; }
 

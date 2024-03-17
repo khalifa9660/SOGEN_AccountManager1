@@ -38,7 +38,7 @@ namespace SoGen_AccountManager1.Controllers
 
 
         [HttpPost("AddPlayer")]
-        public async Task<IActionResult> AddPlayer(CreateRequestPlayerDTO req)
+        public async Task<IActionResult> AddPlayer(UpdatePlayerDTO req)
         {
             //Map DTO to Domain Model
             var player = new Player
@@ -66,21 +66,12 @@ namespace SoGen_AccountManager1.Controllers
             return Ok(response);
         }
 
-        [HttpGet("GetEditPlayer")]
-        public async Task<IActionResult> GetEditPlayer(Guid id)
-        {
-            var player = _playerRepository.GetPlayerToEdit(id);
-
-            return Ok(player);
-        }
-
         [HttpPut("EditPlayer")]
-        public async Task<IActionResult> EditPlayer(CreateRequestPlayerDTO req)
+        public async Task<IActionResult> EditPlayer(UpdatePlayerDTO req)
         {
-
-            //Map DTO to Domain Model
             var player = new Player
             {
+                Id = req.Id,
                 Name = req.Name,
                 Age = req.Age,
                 Number = req.Number,
@@ -88,28 +79,33 @@ namespace SoGen_AccountManager1.Controllers
                 Photo = req.Photo
             };
 
+            var editedPlayer = await _playerRepository.EditPlayer(player);
 
-            //Domain model to Dto
+            if (editedPlayer == null)
+            {
+                return NotFound();
+            }
+
+        
             var response = new PlayerDto
             {
-                Name = player.Name,
-                Age = player.Age,
-                Number = player.Number,
-                Position = player.Position,
-                Photo = player.Photo
+                Id = editedPlayer.Id,
+                Name = editedPlayer.Name,
+                Age = editedPlayer.Age,
+                Number = editedPlayer.Number,
+                Position = editedPlayer.Position,
+                Photo = editedPlayer.Photo
             };
-
-            await _playerRepository.EditPlayer(player);
 
             return Ok(response);
         }
 
 
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete(Player player)
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> Delete(Guid id)
         {
 
-            var isDeleted = await _playerRepository.DeletePlayer(player);
+            bool isDeleted = await _playerRepository.DeletePlayer(id);
 
             if (isDeleted)
             {
