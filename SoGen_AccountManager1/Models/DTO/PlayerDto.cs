@@ -14,6 +14,8 @@ namespace SoGen_AccountManager1.Models.DTO
         public string Position { get; set; }
 
         public string Photo { get; set; }
+
+        public Guid User_id { get; set; }
     }
 }
 

@@ -5,6 +5,8 @@ VisualStudioVersion = 25.0.1706.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoGen_AccountManager1", "SoGen_AccountManager1\SoGen_AccountManager1.csproj", "{82037DE9-325A-449A-A53D-80750C0446C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoGenXUnitTest", "SoGenXUnitTest\SoGenXUnitTest.csproj", "{07D829D9-86E5-4B54-B463-1B27088D87DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{82037DE9-325A-449A-A53D-80750C0446C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82037DE9-325A-449A-A53D-80750C0446C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82037DE9-325A-449A-A53D-80750C0446C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07D829D9-86E5-4B54-B463-1B27088D87DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07D829D9-86E5-4B54-B463-1B27088D87DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07D829D9-86E5-4B54-B463-1B27088D87DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07D829D9-86E5-4B54-B463-1B27088D87DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SoGen_AccountManager1.Data;
 using SoGen_AccountManager1.Models.Domain;
@@ -24,11 +25,14 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             return player;
         }
 
-        public async Task<IEnumerable<Player>> GetPlayers()
+        public async Task<IdentityUser> FindUserById(Guid userId)
         {
-            var players = await dbContext.Players.ToListAsync();
+            return await dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId.ToString());
+        }
 
-            return players.ToArray();
+        public async Task<IEnumerable<Player>> GetPlayersByUserId(Guid userId)
+        {
+            return await dbContext.Players.Where(p => p.User_id == userId).ToListAsync();
         }
 
         public async Task<Player> EditPlayer(Player player)

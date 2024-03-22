@@ -18,6 +18,8 @@ namespace SoGen_AccountManager1.Models.ApiModels
 
         public string Photo { get; set; }
 
+        public Guid User_id { get; set; }
+
 
     }
 

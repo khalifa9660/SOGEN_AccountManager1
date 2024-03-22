@@ -28,43 +28,96 @@ namespace SoGen_AccountManager1.Controllers
         }
 
 
-        [HttpGet("GetAllPlayers")]
-        public async Task<IActionResult> GetAllPlayers()
+        [HttpGet("GetPlayersByUser")]
+        public async Task<IActionResult> GetPlayers()
         {
-            var players = await _playerRepository.GetPlayers();
+            if (User.Identity.IsAuthenticated)
+            {
+                // Récupérez l'ID de l'utilisateur connecté à partir des claims
+                var userIdString = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
 
-            return Ok(players);
+                if (userIdString != null && Guid.TryParse(userIdString, out Guid userId))
+                {
+                    var user = await _playerRepository.FindUserById(userId);
+                    if (user != null)
+                    {
+                        // Récupérez les joueurs associés à l'ID de l'utilisateur
+                        var players = await _playerRepository.GetPlayersByUserId(userId);
+
+                        return Ok(players);
+                    }
+                    else
+                    {
+                        return NotFound("User not found.");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Could not parse the user ID.");
+                }
+            }
+            else
+            {
+                return Unauthorized("User is not authenticated.");
+            }
         }
+
 
 
         [HttpPost("AddPlayer")]
         public async Task<IActionResult> AddPlayer(UpdatePlayerDTO req)
         {
-            //Map DTO to Domain Model
-            var player = new Player
+            if (User.Identity.IsAuthenticated)
             {
-                Name = req.Name,
-                Age = req.Age,
-                Number = req.Number,
-                Position = req.Position,
-                Photo = req.Photo
-            };
+                // Récupérez l'ID de l'utilisateur connecté à partir des claims
+                var userIdString = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
 
+                if (userIdString != null && Guid.TryParse(userIdString, out Guid userId))
+                {
+                    // Assurez-vous que l'utilisateur existe dans la base de données
+                    if (userIdString != null)
+                    {
+                        // Map DTO to Domain Model en utilisant l'ID récupéré
+                        var player = new Player
+                        {
+                            Name = req.Name,
+                            Age = req.Age,
+                            Number = req.Number,
+                            Position = req.Position,
+                            Photo = req.Photo,
+                            User_id = userId // Utilisez l'ID de l'utilisateur connecté
+                        };
 
-            //Domain model to Dto
-            var response = new PlayerDto
+                        // Domain model to Dto
+                        var response = new PlayerDto
+                        {
+                            Name = player.Name,
+                            Age = player.Age,
+                            Number = player.Number,
+                            Position = player.Position,
+                            Photo = player.Photo,
+                        };
+
+                        await _playerRepository.AddPlayer(player);
+                        return Ok(response);
+                    }
+                    else
+                    {
+                        return NotFound("User not found.");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Could not parse the user ID.");
+                }
+            }
+            else
             {
-                Name = player.Name,
-                Age = player.Age,
-                Number = player.Number,
-                Position = player.Position,
-                Photo = player.Photo
-            };
-
-           await _playerRepository.AddPlayer(player);
-
-            return Ok(response);
+                return Unauthorized("User is not authenticated.");
+            }
         }
+
+
 
         [HttpPut("EditPlayer")]
         public async Task<IActionResult> EditPlayer(UpdatePlayerDTO req)

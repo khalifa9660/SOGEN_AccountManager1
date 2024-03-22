@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity;
 using SoGen_AccountManager1.Models.Domain;
 
 namespace SoGen_AccountManager1.Repositories.Interface
@@ -7,9 +8,11 @@ namespace SoGen_AccountManager1.Repositories.Interface
 	{
 		Task<Player> AddPlayer(Player player);
 
-		Task<IEnumerable<Player>> GetPlayers();
+		Task<IdentityUser> FindUserById(Guid userId);
 
-		Task<Player> EditPlayer(Player player);
+		Task<IEnumerable<Player>> GetPlayersByUserId(Guid userId);
+
+        Task<Player> EditPlayer(Player player);
 
 		Task<bool> DeletePlayers(IEnumerable<Guid> ids);
     }
