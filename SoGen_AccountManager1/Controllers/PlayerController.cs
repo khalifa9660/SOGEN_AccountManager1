@@ -74,7 +74,6 @@ namespace SoGen_AccountManager1.Controllers
 
                 if (userIdString != null && Guid.TryParse(userIdString, out Guid userId))
                 {
-                    // Assurez-vous que l'utilisateur existe dans la base de données
                     if (userIdString != null)
                     {
                         // Map DTO to Domain Model en utilisant l'ID récupéré
@@ -85,7 +84,7 @@ namespace SoGen_AccountManager1.Controllers
                             Number = req.Number,
                             Position = req.Position,
                             Photo = req.Photo,
-                            User_id = userId // Utilisez l'ID de l'utilisateur connecté
+                            User_id = userId
                         };
 
                         // Domain model to Dto
