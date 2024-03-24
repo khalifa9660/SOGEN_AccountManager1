@@ -12,7 +12,5 @@ public class ApplicationDbContext : IdentityDbContext
     }
 
     public DbSet<Player> Players { get; set; }
-
-    public DbSet<Team> Teams { get; set; }
 }
 

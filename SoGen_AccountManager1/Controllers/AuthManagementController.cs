@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Mvc;
 using SoGen_AccountManager1.Models.Domain;
 using SoGen_AccountManager1.Models.DTO;
 using System.Security.Claims;
@@ -9,7 +7,6 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using System.Security.Cryptography;
 
 namespace SoGen_AccountManager1.Controllers
 {
