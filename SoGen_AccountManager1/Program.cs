@@ -56,6 +56,8 @@ builder.Services.AddAuthentication(configureOptions: options =>
 builder.Services.AddCors(options => options.AddPolicy("FrontEnd", policy =>
 {
     policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+    policy.WithOrigins("https://sogen-front1-1.onrender.com").AllowAnyHeader().AllowAnyMethod();
+
 }));
 
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
