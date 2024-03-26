@@ -19,6 +19,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Récupération de la chaîne de connexion de JAWSDB_JADE_URL pour Heroku, sinon utilisation de DefaultConnection
 var connectionString = builder.Configuration.GetConnectionString("use_env_variable")
     ?? builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrEmpty(connectionString))
+{
+    connectionString = $"Server={Environment.GetEnvironmentVariable("DB_HOST")};"
+                     + $"port={Environment.GetEnvironmentVariable("DB_PORT")};"
+                     + $"Database={Environment.GetEnvironmentVariable("DB_NAME")};"
+                     + $"user={Environment.GetEnvironmentVariable("DB_USER")};"
+                     + $"password={Environment.GetEnvironmentVariable("DB_PASSWORD")};"
+                     + "Persist security Info=true;";
+}
 
 
 builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 31))));
