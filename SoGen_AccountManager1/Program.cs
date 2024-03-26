@@ -20,11 +20,10 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = Environment.GetEnvironmentVariable("JAWSDB_JADE_URL")
     ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Configuration pour utiliser MySql avec EF Core
 builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-// Le reste de la configuration reste inchangé
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddControllers();
