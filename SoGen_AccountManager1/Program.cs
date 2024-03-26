@@ -17,11 +17,12 @@ using SoGen_AccountManager1.Models.Domain;
 var builder = WebApplication.CreateBuilder(args);
 
 // Récupération de la chaîne de connexion de JAWSDB_JADE_URL pour Heroku, sinon utilisation de DefaultConnection
-var connectionString = Environment.GetEnvironmentVariable("JAWSDB_JADE_URL")
+var connectionString = builder.Configuration.GetConnectionString("use_env_variable")
     ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 31))));
+
 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
