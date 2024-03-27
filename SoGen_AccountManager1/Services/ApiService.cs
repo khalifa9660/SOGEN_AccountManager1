@@ -6,9 +6,18 @@ namespace SoGen_AccountManager1.Services
 {
     public class ApiService : IApiService
     {
+        private readonly IConfiguration _configuration;
+
+        public ApiService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public async Task<Country[]> GetCountriesFromExternalApi()
         {
             var client = new HttpClient();
+
+            var apiKey = _configuration["RAPIDAPI_KEY"];
 
             var request = new HttpRequestMessage
             {
@@ -16,7 +25,7 @@ namespace SoGen_AccountManager1.Services
                 RequestUri = new Uri("https://api-football-v1.p.rapidapi.com/v3/countries"),
                 Headers =
         {
-            { "X-RapidAPI-Key", "763f1903cemshf1814091940340dp16dfe1jsnb7781ae9d30a" },
+            { "X-RapidAPI-Key", apiKey },
             { "X-RapidAPI-Host", "api-football-v1.p.rapidapi.com" },
             { "access-control-allow-credentials", "true" },
             { "access-control-allow-headers", "x-rapidapi-key, x-apisports-key, x-rapidapi-host" },
@@ -50,6 +59,8 @@ namespace SoGen_AccountManager1.Services
         {
             var client = new HttpClient();
 
+            var apiKey = _configuration["RAPIDAPI_KEY"];
+
             string apiUrl = $"https://api-football-v1.p.rapidapi.com/v2/teams/league/{leagueId}";
 
             var request = new HttpRequestMessage
@@ -58,7 +69,7 @@ namespace SoGen_AccountManager1.Services
                 RequestUri = new Uri(apiUrl),
                 Headers =
                 {
-                    { "X-RapidAPI-Key", "763f1903cemshf1814091940340dp16dfe1jsnb7781ae9d30a" },
+                    { "X-RapidAPI-Key", apiKey },
                     { "X-RapidAPI-Host", "api-football-v1.p.rapidapi.com" },
                     { "access-control-allow-credentials", "true" },
                     { "access-control-allow-headers", "x-rapidapi-key, x-apisports-key, x-rapidapi-host" },
@@ -92,6 +103,8 @@ namespace SoGen_AccountManager1.Services
         {
             var client = new HttpClient();
 
+            var apiKey = _configuration["RAPIDAPI_KEY"];
+
             string apiUrl = $"https://api-football-v1.p.rapidapi.com/v3/players/squads?team={team}";
 
             var request = new HttpRequestMessage
@@ -100,7 +113,7 @@ namespace SoGen_AccountManager1.Services
                 RequestUri = new Uri(apiUrl),
                 Headers =
         {
-            { "X-RapidAPI-Key", "763f1903cemshf1814091940340dp16dfe1jsnb7781ae9d30a" },
+            { "X-RapidAPI-Key", apiKey },
             { "X-RapidAPI-Host", "api-football-v1.p.rapidapi.com" },
             { "access-control-allow-credentials", "true" },
             { "access-control-allow-headers", "x-rapidapi-key, x-apisports-key, x-rapidapi-host" },
@@ -140,6 +153,8 @@ namespace SoGen_AccountManager1.Services
         {
             var client = new HttpClient();
 
+            var apiKey = _configuration["RAPIDAPI_KEY"];
+
             string apiUrl = $"https://api-football-v1.p.rapidapi.com/players/{season}/{leagueId}";
 
             var request = new HttpRequestMessage
@@ -148,7 +163,7 @@ namespace SoGen_AccountManager1.Services
                 RequestUri = new Uri(apiUrl),
                 Headers =
         {
-            { "X-RapidAPI-Key", "763f1903cemshf1814091940340dp16dfe1jsnb7781ae9d30a" },
+            { "X-RapidAPI-Key", apiKey },
             { "X-RapidAPI-Host", "api-football-v1.p.rapidapi.com" },
             { "access-control-allow-credentials", "true" },
             { "access-control-allow-headers", "x-rapidapi-key, x-apisports-key, x-rapidapi-host" },

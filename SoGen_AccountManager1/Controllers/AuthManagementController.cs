@@ -30,7 +30,7 @@ namespace SoGen_AccountManager1.Controllers
 
 		[HttpPost("Register")]
 
-			public async Task<ActionResult> Register([FromBody] UserRegistrationRequestDto requestDto)
+		public async Task<ActionResult> Register([FromBody] UserRegistrationRequestDto requestDto)
 		{
 			if (ModelState.IsValid)
 			{
@@ -70,39 +70,6 @@ namespace SoGen_AccountManager1.Controllers
 		}
 
 
-        private string GenerateJwtToken(IdentityUser user)
-        {
-            var jwtTokenHandler = new JwtSecurityTokenHandler();
-
-            // Générer une clé aléatoire de 512 bits
-            //byte[] keyBytes = new byte[64]; // 512 bits / 8 = 64 octets
-            //using (var rng = RandomNumberGenerator.Create())
-            //{
-            //    rng.GetBytes(keyBytes);
-            //}
-
-            var key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor()
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-            new Claim("Id", user.Id),
-            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        }),
-                Expires = DateTime.UtcNow.AddHours(4),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                                                            SecurityAlgorithms.HmacSha512)
-            };
-
-            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
-            var jwtToken = jwtTokenHandler.WriteToken(token);
-            return jwtToken;
-        }
-
-
-
 		[HttpPost("Login")]
 
 		public async Task<ActionResult> Login([FromBody] UserLoginRequestDto requestDto)
@@ -134,6 +101,31 @@ namespace SoGen_AccountManager1.Controllers
             return BadRequest(error: "Invalid request payload");
         }
 
-	}
+
+        private string GenerateJwtToken(IdentityUser user)
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+
+            var key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+            new Claim("Id", user.Id),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        }),
+                Expires = DateTime.UtcNow.AddHours(4),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                                                            SecurityAlgorithms.HmacSha512)
+            };
+
+            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
+            var jwtToken = jwtTokenHandler.WriteToken(token);
+            return jwtToken;
+        }
+
+    }
 }
 

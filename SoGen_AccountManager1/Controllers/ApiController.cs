@@ -43,7 +43,6 @@ namespace SoGen_AccountManager1.Controllers
         {
             try
             {
-
                 var Teams = await _apiService.GetTeamsFromApi(leagueId);
 
                 return Ok(Teams);
