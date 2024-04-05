@@ -65,7 +65,7 @@ namespace SoGen_AccountManager1.Repositories.Implementation
                 }
                 else
                 {
-                    // Si un joueur avec l'ID spécifié n'est pas trouvé, marquez la suppression comme échouée
+                    // Si un joueur avec l'ID spécifié n'est pas trouvé, marque la suppression comme échouée
                     allDeleted = false;
                 }
             }

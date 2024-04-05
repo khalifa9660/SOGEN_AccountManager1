@@ -17,7 +17,7 @@ using SoGen_AccountManager1.Models.Domain;
 var builder = WebApplication.CreateBuilder(args);
 
 // Récupération de la chaîne de connexion de JAWSDB_JADE_URL pour Heroku, sinon utilisation de DefaultConnection
-var connectionString = builder.Configuration.GetConnectionString("use_env_variable")
+var connectionString = builder.Configuration.GetConnectionString("LocalConnection")
     ?? builder.Configuration.GetConnectionString("DefaultConnection");
 if (string.IsNullOrEmpty(connectionString))
 {
