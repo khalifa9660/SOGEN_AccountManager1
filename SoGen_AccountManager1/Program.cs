@@ -1,24 +1,20 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using SoGen_AccountManager1.Data;
 using SoGen_AccountManager1.Repositories.Interface;
 using SoGen_AccountManager1.Repositories.Implementation;
 using SoGen_AccountManager1.Interface;
 using SoGen_AccountManager1.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Text;
 using SoGen_AccountManager1.Models.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Récupération de la chaîne de connexion de JAWSDB_JADE_URL pour Heroku, sinon utilisation de DefaultConnection
-var connectionString = builder.Configuration.GetConnectionString("LocalConnection")
-    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    // ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
 if (string.IsNullOrEmpty(connectionString))
 {
     connectionString = $"Server={Environment.GetEnvironmentVariable("DB_HOST")};"
@@ -29,10 +25,8 @@ if (string.IsNullOrEmpty(connectionString))
                      + "Persist security Info=true;";
 }
 
-
-builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 31))));
-
-
+builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 31))));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -40,10 +34,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-
-builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection(key: "JwtConfig"));
+builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
 
 builder.Services.AddAuthentication(options =>
 {
@@ -68,7 +59,10 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddCors(options => options.AddPolicy("FrontEnd", policy =>
 {
-    policy.WithOrigins("http://localhost:4200", "https://sogen-front1-1.onrender.com").AllowAnyHeader().AllowAnyMethod().AllowCredentials(); 
+    policy.WithOrigins("http://localhost:4200", "https://sogen-front1-1.onrender.com")
+          .AllowAnyHeader()
+          .AllowAnyMethod()
+          .AllowCredentials();
 }));
 
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
@@ -85,9 +79,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 app.UseCors("FrontEnd");
 
 app.MapControllers();

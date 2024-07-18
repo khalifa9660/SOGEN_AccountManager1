@@ -1,12 +1,8 @@
-﻿using System;
-using System.Globalization;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SoGen_AccountManager1.Interface;
-using SoGen_AccountManager1.Models.ApiModels;
-
+ 
 namespace SoGen_AccountManager1.Controllers
 {
     [Route("api/[controller]")]

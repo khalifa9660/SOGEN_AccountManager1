@@ -8,4 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = SoGenXUnitTest
-build_property.ProjectDir = /Users/khali/Documents/Projets/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/
+build_property.ProjectDir = /Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

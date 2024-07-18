@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace SoGen_AccountManager1.Models.ApiModels
+namespace SoGen_AccountManager1.Models.ExternalApiModels
 {
 
     public class Player

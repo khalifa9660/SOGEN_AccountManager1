@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "tOHBRMqniQPtLNIdZFCxPplDbQLuuv6uBF4DXL6YiIPkZwBDvvUT2iwe8y02IqSkTgutLCC/VBS2tDbIORAbOg==",
+  "dgSpecHash": "fw+DojTqMx4=",
   "success": true,
-  "projectFilePath": "/Users/khali/Documents/Projets/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/SoGenXUnitTest.csproj",
+  "projectFilePath": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/SoGenXUnitTest.csproj",
   "expectedPackageFiles": [
     "/Users/khali/.nuget/packages/azure.core/1.35.0/azure.core.1.35.0.nupkg.sha512",
     "/Users/khali/.nuget/packages/azure.identity/1.10.3/azure.identity.1.10.3.nupkg.sha512",
@@ -268,7 +268,9 @@
     "/Users/khali/.nuget/packages/xunit.core/2.7.0/xunit.core.2.7.0.nupkg.sha512",
     "/Users/khali/.nuget/packages/xunit.extensibility.core/2.7.0/xunit.extensibility.core.2.7.0.nupkg.sha512",
     "/Users/khali/.nuget/packages/xunit.extensibility.execution/2.7.0/xunit.extensibility.execution.2.7.0.nupkg.sha512",
-    "/Users/khali/.nuget/packages/xunit.runner.visualstudio/2.5.7/xunit.runner.visualstudio.2.5.7.nupkg.sha512"
+    "/Users/khali/.nuget/packages/xunit.runner.visualstudio/2.5.7/xunit.runner.visualstudio.2.5.7.nupkg.sha512",
+    "/Users/khali/.nuget/packages/microsoft.netcore.app.ref/7.0.20/microsoft.netcore.app.ref.7.0.20.nupkg.sha512",
+    "/Users/khali/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.20/microsoft.aspnetcore.app.ref.7.0.20.nupkg.sha512"
   ],
   "logs": []
 }
