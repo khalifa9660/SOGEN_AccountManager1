@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Récupération de la chaîne de connexion
 string connectionString;
-if (builder.Environment.IsDevelopment())
+if (builder.Environment.IsDevelopment()) 
 {
     // Utiliser LocalConnection pour le développement
     connectionString = builder.Configuration.GetConnectionString("LocalConnection");
