@@ -1,17 +1,17 @@
-﻿using System;
 namespace SoGen_AccountManager1.Models.Domain
 {
-	public class Team
-	{
-        public Guid Id { get; set; }
+    public class Team
+    {
+        public int Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
 
-        public string Code { get; set; } = string.Empty;
+        public string Photo { get; set; }
 
-        public string Logo { get; set; } = string.Empty;
+        public int Championship_Id {get; set;}
 
-        public string? Country { get; set; }
+        public DateTime Founded {get; set;}
+
+        public int User_id { get; set; }
     }
 }
-

@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SoGen_AccountManager1.Data;
 using SoGen_AccountManager1.Models.Domain;
 using SoGen_AccountManager1.Models.DTO;
 using SoGen_AccountManager1.Repositories.Interface;
+using System.Security.Claims;
 
 namespace SoGen_AccountManager1.Controllers
 {
@@ -29,38 +24,30 @@ namespace SoGen_AccountManager1.Controllers
 
 
         [HttpGet("GetPlayersByUser")]
-        public async Task<IActionResult> GetPlayers()
+    public async Task<IActionResult> GetPlayers()
+    {
+        // Extraire l'ID de l'utilisateur à partir des claims du token
+        var userIdString = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        if (userIdString != null && int.TryParse(userIdString, out int userId))
         {
-            if (User.Identity.IsAuthenticated)
+            var user = await _playerRepository.FindUserById(userId);
+            if (user != null)
             {
-                // Récupérez l'ID de l'utilisateur connecté à partir des claims
-                var userIdString = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
-
-                if (userIdString != null && Guid.TryParse(userIdString, out Guid userId))
-                {
-                    var user = await _playerRepository.FindUserById(userId);
-                    if (user != null)
-                    {
-                        // Récupérez les joueurs associés à l'ID de l'utilisateur
-                        var players = await _playerRepository.GetPlayersByUserId(userId);
-
-                        return Ok(players);
-                    }
-                    else
-                    {
-                        return NotFound("User not found.");
-                    }
-                }
-                else
-                {
-                    return BadRequest("Could not parse the user ID.");
-                }
+                // Récupérez les joueurs associés à l'ID de l'utilisateur
+                var players = await _playerRepository.GetPlayersByUserId(userId);
+                return Ok(players);
             }
             else
             {
-                return Unauthorized("User is not authenticated.");
+                return NotFound("User not found.");
             }
         }
+        else
+        {
+            return BadRequest("Could not parse the user ID.");
+        }
+    }
 
 
 
@@ -72,7 +59,7 @@ namespace SoGen_AccountManager1.Controllers
                 // Récupérez l'ID de l'utilisateur connecté à partir des claims
                 var userIdString = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
 
-                if (userIdString != null && Guid.TryParse(userIdString, out Guid userId))
+                if (userIdString != null && int.TryParse(userIdString, out int userId))
                 {
                     if (userIdString != null)
                     {
@@ -157,7 +144,7 @@ namespace SoGen_AccountManager1.Controllers
         public async Task<IActionResult> DeleteMultiple(string ids)
         {
             // Séparer les identifiants et les convertir en Guid
-            var idList = ids.Split(',').Select(Guid.Parse).ToList();
+            var idList = ids.Split(',').Select(int.Parse).ToList();
 
             bool isDeleted = await _playerRepository.DeletePlayers(idList);
 

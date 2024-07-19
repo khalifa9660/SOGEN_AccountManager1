@@ -1,38 +1,46 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using SoGen_AccountManager1.Data;
 using SoGen_AccountManager1.Repositories.Interface;
 using SoGen_AccountManager1.Repositories.Implementation;
 using SoGen_AccountManager1.Interface;
 using SoGen_AccountManager1.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Text;
 using SoGen_AccountManager1.Models.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Récupération de la chaîne de connexion de JAWSDB_JADE_URL pour Heroku, sinon utilisation de DefaultConnection
-var connectionString = builder.Configuration.GetConnectionString("LocalConnection")
-    ?? builder.Configuration.GetConnectionString("DefaultConnection");
-if (string.IsNullOrEmpty(connectionString))
+// Récupération de la chaîne de connexion
+string connectionString;
+if (builder.Environment.IsDevelopment()) 
 {
-    connectionString = $"Server={Environment.GetEnvironmentVariable("DB_HOST")};"
-                     + $"port={Environment.GetEnvironmentVariable("DB_PORT")};"
-                     + $"Database={Environment.GetEnvironmentVariable("DB_NAME")};"
-                     + $"user={Environment.GetEnvironmentVariable("DB_USER")};"
-                     + $"password={Environment.GetEnvironmentVariable("DB_PASSWORD")};"
-                     + "Persist security Info=true;";
+    // Utiliser LocalConnection pour le développement
+    connectionString = builder.Configuration.GetConnectionString("LocalConnection");
+}
+else
+{
+    // Utiliser DATABASE_URL pour la production (Heroku)
+    var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+    if (!string.IsNullOrEmpty(databaseUrl))
+    {
+        // Parser DATABASE_URL
+        var uri = new Uri(databaseUrl);
+        var db = uri.AbsolutePath.Trim('/');
+        var user = uri.UserInfo.Split(':')[0];
+        var passwd = uri.UserInfo.Split(':')[1];
+        var port = uri.Port > 0 ? uri.Port : 3306;
+        connectionString = $"Server={uri.Host};Port={port};Database={db};User={user};Password={passwd};SSL Mode=Required;";
+    }
+    else
+    {
+        // Fallback sur DefaultConnection si DATABASE_URL n'est pas défini
+        connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    }
 }
 
-
-builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 31))));
-
-
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -40,10 +48,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-
-builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection(key: "JwtConfig"));
+// Configuration JWT
+var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET") ?? 
+    builder.Configuration.GetSection("JwtConfig:Secret").Value;
+builder.Services.Configure<JwtConfig>(options => options.Secret = jwtSecret);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -53,7 +61,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(jwt =>
 {
-    var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfig:Secret").Value);
+    var key = Encoding.ASCII.GetBytes(jwtSecret);
     jwt.SaveToken = true;
     jwt.TokenValidationParameters = new TokenValidationParameters
     {
@@ -66,9 +74,14 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Configuration CORS
+var allowedOrigins = (Environment.GetEnvironmentVariable("ALLOWED_ORIGINS") ?? "http://localhost:4200,https://sogen-front1-1.onrender.com").Split(',');
 builder.Services.AddCors(options => options.AddPolicy("FrontEnd", policy =>
 {
-    policy.WithOrigins("http://localhost:4200", "https://sogen-front1-1.onrender.com").AllowAnyHeader().AllowAnyMethod().AllowCredentials(); 
+    policy.WithOrigins(allowedOrigins)
+          .AllowAnyHeader()
+          .AllowAnyMethod()
+          .AllowCredentials();
 }));
 
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
@@ -85,9 +98,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 app.UseCors("FrontEnd");
 
 app.MapControllers();

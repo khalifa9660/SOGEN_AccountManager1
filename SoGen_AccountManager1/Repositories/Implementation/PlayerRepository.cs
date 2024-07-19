@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SoGen_AccountManager1.Data;
@@ -25,12 +24,11 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             return player;
         }
 
-        public async Task<IdentityUser> FindUserById(Guid userId)
+        public async Task<User> FindUserById(int userId)
         {
-            return await dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId.ToString());
+            return await dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
         }
-
-        public async Task<IEnumerable<Player>> GetPlayersByUserId(Guid userId)
+        public async Task<IEnumerable<Player>> GetPlayersByUserId(int userId)
         {
             return await dbContext.Players.Where(p => p.User_id == userId).ToListAsync();
         }
@@ -79,6 +77,25 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             return allDeleted;
         }
 
+        public Task<IdentityUser> FindUserById(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Player>> GetPlayersByUserId(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeletePlayers(IEnumerable<int> ids)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<int> IPlayerRepository.FindUserById(int userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

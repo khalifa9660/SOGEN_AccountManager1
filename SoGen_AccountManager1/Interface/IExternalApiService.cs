@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using SoGen_AccountManager1.Models.ApiModels;
+﻿using SoGen_AccountManager1.Models.ExternalApiModels;
 
 namespace SoGen_AccountManager1.Interface
 
