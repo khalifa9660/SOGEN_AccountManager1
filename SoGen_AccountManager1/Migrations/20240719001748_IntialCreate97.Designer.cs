@@ -11,8 +11,8 @@ using SoGen_AccountManager1.Data;
 namespace SoGen_AccountManager1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240717213447_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240719001748_IntialCreate97")]
+    partial class IntialCreate97
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

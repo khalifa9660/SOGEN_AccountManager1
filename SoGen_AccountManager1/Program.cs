@@ -12,31 +12,16 @@ using SoGen_AccountManager1.Models.Domain;
 var builder = WebApplication.CreateBuilder(args);
 
 // Récupération de la chaîne de connexion
-string connectionString;
-if (builder.Environment.IsDevelopment()) 
+var connectionString = builder.Configuration.GetConnectionString("use_env_variable")
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrEmpty(connectionString))
 {
-    // Utiliser LocalConnection pour le développement
-    connectionString = builder.Configuration.GetConnectionString("LocalConnection");
-}
-else
-{
-    // Utiliser DATABASE_URL pour la production (Heroku)
-    var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-    if (!string.IsNullOrEmpty(databaseUrl))
-    {
-        // Parser DATABASE_URL
-        var uri = new Uri(databaseUrl);
-        var db = uri.AbsolutePath.Trim('/');
-        var user = uri.UserInfo.Split(':')[0];
-        var passwd = uri.UserInfo.Split(':')[1];
-        var port = uri.Port > 0 ? uri.Port : 3306;
-        connectionString = $"Server={uri.Host};Port={port};Database={db};User={user};Password={passwd};SSL Mode=Required;";
-    }
-    else
-    {
-        // Fallback sur DefaultConnection si DATABASE_URL n'est pas défini
-        connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    }
+    connectionString = $"Server={Environment.GetEnvironmentVariable("DB_HOST")};"
+                     + $"port={Environment.GetEnvironmentVariable("DB_PORT")};"
+                     + $"Database={Environment.GetEnvironmentVariable("DB_NAME")};"
+                     + $"user={Environment.GetEnvironmentVariable("DB_USER")};"
+                     + $"password={Environment.GetEnvironmentVariable("DB_PASSWORD")};"
+                     + "Persist security Info=true;";
 }
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
