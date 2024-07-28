@@ -374,3 +374,6 @@
 /Users/khali/Documents/Projets/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/bin/Debug/net7.0/SoGen_AccountManager1.pdb
 /Users/khali/Documents/Projets/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/bin/Debug/net7.0/Castle.Core.dll
 /Users/khali/Documents/Projets/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/bin/Debug/net7.0/Moq.dll
+/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/obj/Debug/net7.0/SoGenXUnitTest.dll
+/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/obj/Debug/net7.0/refint/SoGenXUnitTest.dll
+/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/obj/Debug/net7.0/SoGenXUnitTest.pdb

@@ -1,14 +1,16 @@
-﻿using System;
-namespace SoGen_AccountManager1.Models.DTO
+public class UserDTO
 {
-	public class UserDto
-	{
-		public int Id { get; set; }
+        public int Id { get; set; }
 
-		public required string Username { get; set; }
+        public string Name { get; set; }
 
-		public required string Password { get; set; }
+        public string Photo { get; set; }
 
-	}
+        public string Mail { get; set; }
+
+        public int Championship_Id {get; set;}
+
+        public DateTime Founded {get; set;}
+
+        public int User_id { get; set; }
 }
-

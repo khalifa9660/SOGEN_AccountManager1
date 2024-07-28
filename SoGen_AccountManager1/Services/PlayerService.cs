@@ -1,30 +1,17 @@
-using Microsoft.EntityFrameworkCore;
-using SoGen_AccountManager1.Data;
+
 using SoGen_AccountManager1.Models.Domain;
-using SoGen_AccountManager1.Repositories.Interface.IRepository;
+using SoGen_AccountManager1.Repositories.Interface.IService;
 
-namespace SoGen_AccountManager1.Repositories.Implementation
+namespace SoGen_AccountManager1.Services.PlayerService
 {
-    public class PlayerRepository : IPlayerRepository
-    {
-        private readonly ApplicationDbContext dbContext;
+    public class PlayerService : IPlayerService {
 
-        public PlayerRepository(ApplicationDbContext dbContext)
+
+        public PlayerService( )
         {
-            this.dbContext = dbContext;
         }
-
-        public async Task<Player> AddPlayer(Player player)
+    public async Task<IEnumerable<Player>> GetPlayersByUserId(int userId)
         {
-            await dbContext.Players.AddAsync(player);
-            await dbContext.SaveChangesAsync();
-
-            return player;
-        }
-
-        public async Task<IEnumerable<Player>> GetPlayersByUserId(int userId)
-        {
-            return await dbContext.Players.Where(p => p.User_id == userId).ToListAsync();
         }
 
         public async Task<Player> EditPlayer(Player player)
@@ -70,11 +57,8 @@ namespace SoGen_AccountManager1.Repositories.Implementation
 
             return allDeleted;
         }
-
-        public async Task<IEnumerable<Player>> FindPlayersById(int id)
-        {
-            return await dbContext.Players.Where(p => p.Id == id ).ToListAsync();
-        }
-    }
+}
 }
 
+        
+        

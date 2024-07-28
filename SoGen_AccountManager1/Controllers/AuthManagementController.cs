@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SoGen_AccountManager1.Models.Domain;
-using SoGen_AccountManager1.Models.DTO;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using SoGen_AccountManager1.Models.DTO;
+using SoGen_AccountManager1.Repositories.Interface.IAccountRepository;
 
 namespace SoGen_AccountManager1.Controllers
 {
@@ -17,15 +18,17 @@ namespace SoGen_AccountManager1.Controllers
 	{
 		private readonly IConfiguration _configuration;
 		private ILogger<AuthManagementController> _logger;
-		private readonly UserManager<IdentityUser> _userManager;
+		private readonly IAccountRepository _accountRepository;
 		private readonly JwtConfig _jwtConfig;
 
-		public AuthManagementController(IConfiguration configuration, ILogger<AuthManagementController> logger, UserManager<IdentityUser> userManager, IOptionsMonitor<JwtConfig> _optionsMonitor)
+
+
+		public AuthManagementController(IConfiguration configuration, ILogger<AuthManagementController> logger, IAccountRepository accountRepository, IOptionsMonitor<JwtConfig> _optionsMonitor)
 		{
 			_configuration = configuration;
 			_logger = logger;
 			_jwtConfig = _optionsMonitor.CurrentValue;
-			_userManager = userManager;
+			_accountRepository = accountRepository;
 		}
 
 		[HttpPost("Register")]
@@ -35,19 +38,19 @@ namespace SoGen_AccountManager1.Controllers
 			if (ModelState.IsValid)
 			{
 				//Check if Email exist
-				var emailExist = await _userManager.FindByEmailAsync(requestDto.Email);
+				var emailExist = await _accountRepository.FindUserByEmail(requestDto.Email);
 
 				if(emailExist != null)
 					return BadRequest(error: "Email already exist");
 
-				var newUser = new IdentityUser()
+				var newUser = new User()
 				{
-					Email = requestDto.Email,
-					UserName = requestDto.Name
+					Mail = requestDto.Email,
+					Name = requestDto.Name
 
 				};
 
-				var isCreated = await _userManager.CreateAsync(newUser, requestDto.Password);
+				var isCreated = await _accountRepository.CreateUserAsync(newUser, requestDto.Password);
 
 				if (isCreated.Succeeded)
 				{
@@ -76,12 +79,12 @@ namespace SoGen_AccountManager1.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var existingUser = await _userManager.FindByEmailAsync(requestDto.Email);
+				var existingUser = await _accountRepository.FindUserByEmail(requestDto.Email);
 
 				if (existingUser == null)
 					return BadRequest("Invalid authentication");
 
-				var isPasswordValid = await _userManager.CheckPasswordAsync(existingUser, requestDto.Password);
+				var isPasswordValid = await _accountRepository.CheckPasswordAsync(existingUser, requestDto.Password);
 
 				if (isPasswordValid)
 				{
@@ -125,6 +128,25 @@ namespace SoGen_AccountManager1.Controllers
             var jwtToken = jwtTokenHandler.WriteToken(token);
             return jwtToken;
         }
+
+		public async Task<bool> CreateUserAsync(User user, string password)
+		{
+			// Hacher le mot de passe
+			user.Password = HashPassword(password);
+
+			// Ajouter l'utilisateur à la base de données
+			await _accountRepository.AddUser(user);
+
+			return true;
+		}
+
+		public string HashPassword(string password)
+		{
+			// Utiliser une bibliothèque de hachage sécurisée, comme BCrypt
+			return BCrypt.Net.BCrypt.HashPassword(password);
+		}
+
+
 
     }
 }

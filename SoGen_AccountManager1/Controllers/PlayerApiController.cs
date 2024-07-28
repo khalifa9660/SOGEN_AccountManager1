@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SoGen_AccountManager1.Models.Domain;
-using SoGen_AccountManager1.Models.DTO;
-using SoGen_AccountManager1.Repositories.Interface;
+using SoGen_AccountManager1.Repositories.Interface.IRepository;
+using SoGen_AccountManager1.Repositories.Interface.IService;
 using System.Security.Claims;
 
 namespace SoGen_AccountManager1.Controllers
@@ -15,11 +15,15 @@ namespace SoGen_AccountManager1.Controllers
 
     public class PlayerController : ControllerBase
     {
-        private readonly IPlayerRepository _playerRepository;
+        private readonly IPlayerService _playerService;
 
-        public PlayerController(IPlayerRepository playerRepository)
+        private readonly IUserRepository _userRepository;
+
+
+        public PlayerController(IPlayerService playerService, IUserRepository userRepository)
         {
-            _playerRepository = playerRepository;
+            _playerService = playerService;
+            _userRepository = userRepository;
         }
 
 
@@ -31,11 +35,11 @@ namespace SoGen_AccountManager1.Controllers
 
         if (userIdString != null && int.TryParse(userIdString, out int userId))
         {
-            var user = await _playerRepository.FindUserById(userId);
+            var user = await _userRepository.FindUserById(userId);
             if (user != null)
             {
                 // Récupérez les joueurs associés à l'ID de l'utilisateur
-                var players = await _playerRepository.GetPlayersByUserId(userId);
+                var players = await _playerService.GetPlayersByUserId(userId);
                 return Ok(players);
             }
             else
@@ -52,7 +56,7 @@ namespace SoGen_AccountManager1.Controllers
 
 
         [HttpPost("AddPlayer")]
-        public async Task<IActionResult> AddPlayer(UpdatePlayerDTO req)
+        public async Task<IActionResult> AddPlayer(PlayerDTO req)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -75,7 +79,7 @@ namespace SoGen_AccountManager1.Controllers
                         };
 
                         // Domain model to Dto
-                        var response = new PlayerDto
+                        var response = new PlayerDTO
                         {
                             Name = player.Name,
                             Age = player.Age,
@@ -84,7 +88,7 @@ namespace SoGen_AccountManager1.Controllers
                             Photo = player.Photo,
                         };
 
-                        await _playerRepository.AddPlayer(player);
+                        await _playerService.AddPlayer(player);
                         return Ok(response);
                     }
                     else
@@ -106,7 +110,7 @@ namespace SoGen_AccountManager1.Controllers
 
 
         [HttpPut("EditPlayer")]
-        public async Task<IActionResult> EditPlayer(UpdatePlayerDTO req)
+        public async Task<IActionResult> EditPlayer(PlayerDTO req)
         {
             var player = new Player
             {
@@ -118,7 +122,7 @@ namespace SoGen_AccountManager1.Controllers
                 Photo = req.Photo
             };
 
-            var editedPlayer = await _playerRepository.EditPlayer(player);
+            var editedPlayer = await _playerService.EditPlayer(player);
 
             if (editedPlayer == null)
             {
@@ -126,7 +130,7 @@ namespace SoGen_AccountManager1.Controllers
             }
 
         
-            var response = new PlayerDto
+            var response = new PlayerDTO
             {
                 Id = editedPlayer.Id,
                 Name = editedPlayer.Name,
@@ -146,7 +150,7 @@ namespace SoGen_AccountManager1.Controllers
             // Séparer les identifiants et les convertir en Guid
             var idList = ids.Split(',').Select(int.Parse).ToList();
 
-            bool isDeleted = await _playerRepository.DeletePlayers(idList);
+            bool isDeleted = await _playerService.DeletePlayers(idList);
 
             if (isDeleted)
             {
