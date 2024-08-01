@@ -5,11 +5,13 @@ namespace SoGen_AccountManager1.Repositories.Interface.IRepository
 	public interface IUserRepository
 	{
 
-        Task<User> AddUser(User user);
+        Task<User> AddUserAsync(User user);
 
-        Task<User> FindUserByEmail(string email);
+        Task<User> FindUserByEmailAsync(string email);
 
-        Task<User> FindUserById(int userId);
+        Task<User> FindUserByIdAsync(int userId);
+
+        Task<User> CreateUserAsync(UserDTO userDTO);
 
     }
 }

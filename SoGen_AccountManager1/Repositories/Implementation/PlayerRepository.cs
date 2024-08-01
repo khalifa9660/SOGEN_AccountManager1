@@ -7,29 +7,40 @@ namespace SoGen_AccountManager1.Repositories.Implementation
 {
     public class PlayerRepository : IPlayerRepository
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly ApplicationDbContext _dbContext;
 
         public PlayerRepository(ApplicationDbContext dbContext)
         {
-            this.dbContext = dbContext;
+            _dbContext = dbContext;
         }
 
         public async Task<Player> AddPlayer(Player player)
         {
-            await dbContext.Players.AddAsync(player);
-            await dbContext.SaveChangesAsync();
+            await _dbContext.Players.AddAsync(player);
+            await _dbContext.SaveChangesAsync();
 
             return player;
         }
 
+        public async Task<Player> FindPlayerByIdAsync(int id)
+        {
+            return await _dbContext.Players.FindAsync(id);
+        }
+
+        public async Task UpdatePlayerAsync(Player player)
+        {
+            _dbContext.Players.Update(player);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<Player>> GetPlayersByUserId(int userId)
         {
-            return await dbContext.Players.Where(p => p.User_id == userId).ToListAsync();
+            return await _dbContext.Players.Where(p => p.User_id == userId).ToListAsync();
         }
 
         public async Task<Player> EditPlayer(Player player)
         {
-           var editPlayer = await dbContext.Players.FindAsync(player.Id);
+           var editPlayer = await _dbContext.Players.FindAsync(player.Id);
 
             if(editPlayer is not null)
             {
@@ -39,41 +50,32 @@ namespace SoGen_AccountManager1.Repositories.Implementation
                 editPlayer.Position = player.Position;
                 editPlayer.Photo = player.Photo;
 
-                await dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
             }
 
             return editPlayer;
         }
 
-        public async Task<bool> DeletePlayers(IEnumerable<int> ids)
+        public async Task DeletePlayerAsync(int id) // Implémentation de la suppression unique
         {
-            bool allDeleted = true;
-            foreach (var id in ids)
+            var player = await FindPlayerByIdAsync(id);
+            if (player != null)
             {
-                var playerToDelete = await dbContext.Players.FindAsync(id);
-                if (playerToDelete != null)
-                {
-                    dbContext.Players.Remove(playerToDelete);
-                }
-                else
-                {
-                    // Si un joueur avec l'ID spécifié n'est pas trouvé, marque la suppression comme échouée
-                    allDeleted = false;
-                }
+                _dbContext.Players.Remove(player);
+                await _dbContext.SaveChangesAsync();
             }
+        }
 
-            if (allDeleted)
-            {
-                // Faites l'appel SaveChangesAsync ici pour appliquer toutes les suppressions en une seule transaction
-                await dbContext.SaveChangesAsync();
-            }
-
-            return allDeleted;
+        public async Task DeletePlayersAsync(IEnumerable<int> ids) // Méthode existante pour supprimer plusieurs joueurs
+        {
+            var players = _dbContext.Players.Where(p => ids.Contains(p.Id));
+            _dbContext.Players.RemoveRange(players);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Player>> FindPlayersById(int id)
         {
-            return await dbContext.Players.Where(p => p.Id == id ).ToListAsync();
+            return await _dbContext.Players.Where(p => p.Id == id ).ToListAsync();
         }
     }
 }

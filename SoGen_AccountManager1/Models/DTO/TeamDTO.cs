@@ -10,5 +10,4 @@ public class TeamDTO
 
         public DateTime Founded {get; set;}
 
-        public int User_id { get; set; }
     }

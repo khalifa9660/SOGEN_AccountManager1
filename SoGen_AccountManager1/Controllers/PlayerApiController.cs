@@ -2,9 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SoGen_AccountManager1.Models.Domain;
-using SoGen_AccountManager1.Repositories.Interface.IRepository;
 using SoGen_AccountManager1.Repositories.Interface.IService;
-using System.Security.Claims;
 
 namespace SoGen_AccountManager1.Controllers
 {
@@ -17,41 +15,30 @@ namespace SoGen_AccountManager1.Controllers
     {
         private readonly IPlayerService _playerService;
 
-        private readonly IUserRepository _userRepository;
 
-
-        public PlayerController(IPlayerService playerService, IUserRepository userRepository)
+        public PlayerController(IPlayerService playerService)
         {
             _playerService = playerService;
-            _userRepository = userRepository;
         }
 
 
         [HttpGet("GetPlayersByUser")]
-    public async Task<IActionResult> GetPlayers()
-    {
-        // Extraire l'ID de l'utilisateur à partir des claims du token
-        var userIdString = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
-        if (userIdString != null && int.TryParse(userIdString, out int userId))
+        public async Task<IActionResult> GetPlayersByUserId(int userId)
         {
-            var user = await _userRepository.FindUserById(userId);
-            if (user != null)
+            var playersByUserId = await _playerService.GetPlayersByUserId(userId);
+
+            if (playersByUserId != null && playersByUserId.Any())
             {
-                // Récupérez les joueurs associés à l'ID de l'utilisateur
-                var players = await _playerService.GetPlayersByUserId(userId);
-                return Ok(players);
+                // Si des joueurs ont été trouvés, retourner la liste
+                return Ok(playersByUserId);
             }
             else
             {
-                return NotFound("User not found.");
+                // Si aucun joueur n'a été trouvé, retourner une réponse NoContent ou NotFound
+                return NoContent(); // ou NotFound();
             }
         }
-        else
-        {
-            return BadRequest("Could not parse the user ID.");
-        }
-    }
+
 
 
 
@@ -122,7 +109,7 @@ namespace SoGen_AccountManager1.Controllers
                 Photo = req.Photo
             };
 
-            var editedPlayer = await _playerService.EditPlayer(player);
+            var editedPlayer = await _playerService.EditPlayerAsync(player);
 
             if (editedPlayer == null)
             {
@@ -150,7 +137,7 @@ namespace SoGen_AccountManager1.Controllers
             // Séparer les identifiants et les convertir en Guid
             var idList = ids.Split(',').Select(int.Parse).ToList();
 
-            bool isDeleted = await _playerService.DeletePlayers(idList);
+            bool isDeleted = await _playerService.DeletePlayersAsync(idList);
 
             if (isDeleted)
             {
