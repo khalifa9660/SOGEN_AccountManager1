@@ -1,6 +1,6 @@
 ﻿using SoGen_AccountManager1.Models.ExternalApiModels;
 
-namespace SoGen_AccountManager1.Interface
+namespace SoGen_AccountManager1.Interface.IExternalApi
 
 {
 	public interface IApiService

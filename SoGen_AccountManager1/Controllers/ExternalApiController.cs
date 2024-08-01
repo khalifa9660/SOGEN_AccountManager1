@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SoGen_AccountManager1.Interface;
- 
+using SoGen_AccountManager1.Interface.IExternalApi;
+
 namespace SoGen_AccountManager1.Controllers
 {
     [Route("api/[controller]")]

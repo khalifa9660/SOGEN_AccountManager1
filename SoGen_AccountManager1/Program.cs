@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using SoGen_AccountManager1.Data;
-using SoGen_AccountManager1.Repositories.Interface;
 using SoGen_AccountManager1.Repositories.Implementation;
-using SoGen_AccountManager1.Interface;
 using SoGen_AccountManager1.Services;
 using SoGen_AccountManager1.Models.Domain;
+using SoGen_AccountManager1.Repositories.Interface.IRepository;
+using SoGen_AccountManager1.Repositories.Interface.IService;
+using SoGen_AccountManager1.Services.PlayerService;
+using SoGen_AccountManager1.Interface.IExternalApi;
+using SoGen_AccountManager1.Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,9 +37,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Configuration JWT
-var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET") ?? 
-    builder.Configuration.GetSection("JwtConfig:Secret").Value;
-builder.Services.Configure<JwtConfig>(options => options.Secret = jwtSecret);
+builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
 
 builder.Services.AddAuthentication(options =>
 {
@@ -46,7 +47,8 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(jwt =>
 {
-    var key = Encoding.ASCII.GetBytes(jwtSecret);
+    var jwtConfig = builder.Configuration.GetSection("JwtConfig").Get<JwtConfig>();
+    var key = Encoding.ASCII.GetBytes(jwtConfig.Secret);
     jwt.SaveToken = true;
     jwt.TokenValidationParameters = new TokenValidationParameters
     {
@@ -69,8 +71,12 @@ builder.Services.AddCors(options => options.AddPolicy("FrontEnd", policy =>
           .AllowCredentials();
 }));
 
+// Enregistrement des services
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IApiService, ApiService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

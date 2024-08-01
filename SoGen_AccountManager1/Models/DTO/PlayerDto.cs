@@ -1,9 +1,6 @@
-﻿using System;
-namespace SoGen_AccountManager1.Models.DTO
-{
-	public class PlayerDto
-	{
-        public Guid Id { get; set; }
+public class PlayerDTO
+    {
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
@@ -15,7 +12,5 @@ namespace SoGen_AccountManager1.Models.DTO
 
         public string Photo { get; set; }
 
-        public Guid User_id { get; set; }
+        public int User_id { get; set; }
     }
-}
-

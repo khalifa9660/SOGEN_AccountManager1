@@ -1,6 +1,4 @@
-namespace SoGen_AccountManager1.Models.Domain
-{
-    public class Team
+public class TeamDTO
     {
         public int Id { get; set; }
 
@@ -8,7 +6,8 @@ namespace SoGen_AccountManager1.Models.Domain
 
         public string Photo { get; set; }
 
+        public int Championship_Id {get; set;}
+
         public DateTime Founded {get; set;}
 
     }
-}

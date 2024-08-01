@@ -2,9 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SoGen_AccountManager1.Models.Domain;
-using SoGen_AccountManager1.Models.DTO;
-using SoGen_AccountManager1.Repositories.Interface;
-using System.Security.Claims;
+using SoGen_AccountManager1.Repositories.Interface.IService;
 
 namespace SoGen_AccountManager1.Controllers
 {
@@ -15,44 +13,37 @@ namespace SoGen_AccountManager1.Controllers
 
     public class PlayerController : ControllerBase
     {
-        private readonly IPlayerRepository _playerRepository;
+        private readonly IPlayerService _playerService;
 
-        public PlayerController(IPlayerRepository playerRepository)
+
+        public PlayerController(IPlayerService playerService)
         {
-            _playerRepository = playerRepository;
+            _playerService = playerService;
         }
 
 
         [HttpGet("GetPlayersByUser")]
-    public async Task<IActionResult> GetPlayers()
-    {
-        // Extraire l'ID de l'utilisateur à partir des claims du token
-        var userIdString = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
-        if (userIdString != null && int.TryParse(userIdString, out int userId))
+        public async Task<IActionResult> GetPlayersByUserId(int userId)
         {
-            var user = await _playerRepository.FindUserById(userId);
-            if (user != null)
+            var playersByUserId = await _playerService.GetPlayersByUserId(userId);
+
+            if (playersByUserId != null && playersByUserId.Any())
             {
-                // Récupérez les joueurs associés à l'ID de l'utilisateur
-                var players = await _playerRepository.GetPlayersByUserId(userId);
-                return Ok(players);
+                // Si des joueurs ont été trouvés, retourner la liste
+                return Ok(playersByUserId);
             }
             else
             {
-                return NotFound("User not found.");
+                // Si aucun joueur n'a été trouvé, retourner une réponse NoContent ou NotFound
+                return NoContent(); // ou NotFound();
             }
         }
-        else
-        {
-            return BadRequest("Could not parse the user ID.");
-        }
-    }
+
 
 
 
         [HttpPost("AddPlayer")]
-        public async Task<IActionResult> AddPlayer(UpdatePlayerDTO req)
+        public async Task<IActionResult> AddPlayer(PlayerDTO req)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -75,7 +66,7 @@ namespace SoGen_AccountManager1.Controllers
                         };
 
                         // Domain model to Dto
-                        var response = new PlayerDto
+                        var response = new PlayerDTO
                         {
                             Name = player.Name,
                             Age = player.Age,
@@ -84,7 +75,7 @@ namespace SoGen_AccountManager1.Controllers
                             Photo = player.Photo,
                         };
 
-                        await _playerRepository.AddPlayer(player);
+                        await _playerService.AddPlayer(player);
                         return Ok(response);
                     }
                     else
@@ -106,7 +97,7 @@ namespace SoGen_AccountManager1.Controllers
 
 
         [HttpPut("EditPlayer")]
-        public async Task<IActionResult> EditPlayer(UpdatePlayerDTO req)
+        public async Task<IActionResult> EditPlayer(PlayerDTO req)
         {
             var player = new Player
             {
@@ -118,7 +109,7 @@ namespace SoGen_AccountManager1.Controllers
                 Photo = req.Photo
             };
 
-            var editedPlayer = await _playerRepository.EditPlayer(player);
+            var editedPlayer = await _playerService.EditPlayerAsync(player);
 
             if (editedPlayer == null)
             {
@@ -126,7 +117,7 @@ namespace SoGen_AccountManager1.Controllers
             }
 
         
-            var response = new PlayerDto
+            var response = new PlayerDTO
             {
                 Id = editedPlayer.Id,
                 Name = editedPlayer.Name,
@@ -146,7 +137,7 @@ namespace SoGen_AccountManager1.Controllers
             // Séparer les identifiants et les convertir en Guid
             var idList = ids.Split(',').Select(int.Parse).ToList();
 
-            bool isDeleted = await _playerRepository.DeletePlayers(idList);
+            bool isDeleted = await _playerService.DeletePlayersAsync(idList);
 
             if (isDeleted)
             {

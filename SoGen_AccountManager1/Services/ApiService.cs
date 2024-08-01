@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using SoGen_AccountManager1.Interface;
+using SoGen_AccountManager1.Interface.IExternalApi;
 using SoGen_AccountManager1.Models.ExternalApiModels;
 
 namespace SoGen_AccountManager1.Services

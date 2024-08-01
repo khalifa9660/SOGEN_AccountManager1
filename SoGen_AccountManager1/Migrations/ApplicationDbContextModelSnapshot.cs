@@ -36,9 +36,6 @@ namespace SoGen_AccountManager1.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Team_Id")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Championships");
@@ -46,9 +43,9 @@ namespace SoGen_AccountManager1.Migrations
 
             modelBuilder.Entity("SoGen_AccountManager1.Models.Domain.Player", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
@@ -68,9 +65,6 @@ namespace SoGen_AccountManager1.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Team_Id")
-                        .HasColumnType("int");
-
                     b.Property<int>("User_id")
                         .HasColumnType("int");
 
@@ -85,9 +79,6 @@ namespace SoGen_AccountManager1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Championship_Id")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Founded")
                         .HasColumnType("datetime(6)");
 
@@ -98,9 +89,6 @@ namespace SoGen_AccountManager1.Migrations
                     b.Property<string>("Photo")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<int>("User_id")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -113,22 +101,24 @@ namespace SoGen_AccountManager1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Championship_Id")
-                        .HasColumnType("int");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("Founded")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Photo")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<int>("User_id")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
