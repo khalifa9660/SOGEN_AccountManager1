@@ -6,6 +6,8 @@ namespace SoGen_AccountManager1.Repositories.Interface.IRepository
 	{
 		Task<Championship> AddChampionship(Championship championship);
 
-		Task<Championship> FindChampionshipById(int ChampionshipId);
+		Task<IEnumerable<Championship>> GetAllChampionshipsAsync();
+
+		Task<Championship> GetChampionshipById(int ChampionshipId);
     }
 }

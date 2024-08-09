@@ -27,14 +27,16 @@ namespace SoGen_AccountManager1.Migrations
 
                     b.Property<string>("Country")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<DateTime>("Founded")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 
@@ -52,20 +54,28 @@ namespace SoGen_AccountManager1.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Nationality")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<int?>("Number")
                         .HasColumnType("int");
 
                     b.Property<string>("Photo")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Position")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
 
-                    b.Property<int>("User_id")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -84,11 +94,13 @@ namespace SoGen_AccountManager1.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Photo")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 
@@ -103,22 +115,26 @@ namespace SoGen_AccountManager1.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<DateTime>("Founded")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 

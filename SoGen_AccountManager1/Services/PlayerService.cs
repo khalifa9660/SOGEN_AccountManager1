@@ -15,15 +15,37 @@ namespace SoGen_AccountManager1.Services.PlayerService
             _playerRepository = playerRepository;
         }
 
-    public async Task<Player> AddPlayer(Player player)
-    {
-        return await _playerRepository.AddPlayer(player);
-    }    
+        public async Task<Player> AddPlayerAsync(PlayerDTO playerDTO)
+        {
+            var player = new Player
+            {
+                Name = playerDTO.Name,
+                Age = playerDTO.Age,
+                Number = playerDTO.Number,
+                Position = playerDTO.Position,
+                Nationality = playerDTO.Nationality,
+                Photo = playerDTO.Photo,
+            };
 
-    public async Task<IEnumerable<Player>> GetPlayersByUserId(int userId)
-    {
-        return await _playerRepository.GetPlayersByUserId(userId);
-    }
+            return await _playerRepository.AddPlayerAsync(player);
+        }
+
+        public async Task<IEnumerable<Player>> GetAllPlayers()
+        {
+            return await _playerRepository.GetAllPlayers();
+        }
+
+        
+
+    // public async Task<IEnumerable<Player>> GetPlayersByUserId(int userId)
+    // {
+    //     return await _playerRepository.GetPlayersByUserId(userId);
+    // }
+
+        public async Task<IEnumerable<Player>> GetPlayersById(int playerId)
+        {
+            return await _playerRepository.GetPlayersById(playerId);
+        }
 
     public async Task<Player> EditPlayerAsync(Player player)
     {

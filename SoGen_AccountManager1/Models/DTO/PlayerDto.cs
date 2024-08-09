@@ -1,7 +1,5 @@
 public class PlayerDTO
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public int Age { get; set; }
@@ -12,5 +10,6 @@ public class PlayerDTO
 
         public string Photo { get; set; }
 
-        public int User_id { get; set; }
+        public string Nationality { get; set; }
+
     }

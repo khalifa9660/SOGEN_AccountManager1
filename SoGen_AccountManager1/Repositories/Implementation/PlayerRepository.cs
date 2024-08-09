@@ -14,7 +14,7 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             _dbContext = dbContext;
         }
 
-        public async Task<Player> AddPlayer(Player player)
+        public async Task<Player> AddPlayerAsync(Player player)
         {
             await _dbContext.Players.AddAsync(player);
             await _dbContext.SaveChangesAsync();
@@ -22,6 +22,12 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             return player;
         }
 
+        public async Task<IEnumerable<Player>> GetAllPlayers()
+        {
+            return await _dbContext.Players.ToListAsync();
+        }
+
+        
         public async Task<Player> FindPlayerByIdAsync(int id)
         {
             return await _dbContext.Players.FindAsync(id);
@@ -33,9 +39,14 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Player>> GetPlayersByUserId(int userId)
+        // public async Task<IEnumerable<Player>> GetPlayersByUserId(int userId)
+        // {
+        //     return await _dbContext.Players.Where(p => p.UserId == userId).ToListAsync();
+        // }
+
+        public async Task<IEnumerable<Player>> GetPlayersById(int playerId)
         {
-            return await _dbContext.Players.Where(p => p.User_id == userId).ToListAsync();
+            return await _dbContext.Players.Where(p => p.Id == playerId).ToListAsync();
         }
 
         public async Task<Player> EditPlayer(Player player)
@@ -48,6 +59,7 @@ namespace SoGen_AccountManager1.Repositories.Implementation
                 editPlayer.Age = player.Age;
                 editPlayer.Number = player.Number;
                 editPlayer.Position = player.Position;
+                editPlayer.Nationality = player.Nationality;
                 editPlayer.Photo = player.Photo;
 
                 await _dbContext.SaveChangesAsync();
@@ -71,11 +83,6 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             var players = _dbContext.Players.Where(p => ids.Contains(p.Id));
             _dbContext.Players.RemoveRange(players);
             await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<Player>> FindPlayersById(int id)
-        {
-            return await _dbContext.Players.Where(p => p.Id == id ).ToListAsync();
         }
     }
 }

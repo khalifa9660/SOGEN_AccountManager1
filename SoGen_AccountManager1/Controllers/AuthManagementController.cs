@@ -11,8 +11,6 @@ namespace SoGen_AccountManager1.Controllers
 	{
 		private readonly IUserService _userService;
 
-
-
 		public AuthManagementController(IUserService userService)
 		{
 			_userService = userService;

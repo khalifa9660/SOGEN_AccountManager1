@@ -11,7 +11,7 @@ using SoGen_AccountManager1.Data;
 namespace SoGen_AccountManager1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240801172329_IntialCreate")]
+    [Migration("20240802175651_IntialCreate")]
     partial class IntialCreate
     {
         /// <inheritdoc />
@@ -60,6 +60,11 @@ namespace SoGen_AccountManager1.Migrations
                         .HasColumnType("varchar(255)")
                         .HasMaxLength(255);
 
+                    b.Property<string>("Nationality")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
+
                     b.Property<int?>("Number")
                         .HasColumnType("int");
 
@@ -73,7 +78,7 @@ namespace SoGen_AccountManager1.Migrations
                         .HasColumnType("varchar(255)")
                         .HasMaxLength(255);
 
-                    b.Property<int>("User_id")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
