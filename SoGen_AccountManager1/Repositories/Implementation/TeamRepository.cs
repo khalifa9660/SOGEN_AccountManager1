@@ -23,7 +23,12 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             return team;
         }
 
-        public async Task<Team> FindTeamById(int TeamId)
+        public async Task<IEnumerable<Team>> GetAllTeams()
+        {
+            return await dbContext.Teams.ToListAsync();
+        }
+
+        public async Task<Team> GetTeamById(int TeamId)
         {
             return await dbContext.Teams.FirstOrDefaultAsync(u => u.Id == TeamId);
         }

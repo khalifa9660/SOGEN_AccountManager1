@@ -15,22 +15,69 @@ namespace SoGen_AccountManager1.Controllers
     {
         private readonly IPlayerService _playerService;
 
-
         public PlayerController(IPlayerService playerService)
         {
             _playerService = playerService;
         }
 
 
-        [HttpGet("GetPlayersByUser")]
-        public async Task<IActionResult> GetPlayersByUserId(int userId)
+        [HttpPost("AddPlayer")]
+        public async Task<IActionResult> AddPlayer([FromBody] PlayerDTO playerDTO)
         {
-            var playersByUserId = await _playerService.GetPlayersByUserId(userId);
+            try
+            {
+                var player = await _playerService.AddPlayerAsync(playerDTO);
+                return Ok(player);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
 
-            if (playersByUserId != null && playersByUserId.Any())
+
+        [HttpGet("GetAllPlayers")]
+        public async Task<IActionResult> GetAllPlayers()
+        {
+            try
+            {
+                var allPlayers = await _playerService.GetAllPlayers();
+                return Ok(allPlayers);
+            }
+            catch (Exception ex)
+            {
+                
+                return NoContent();
+            }
+        }
+
+
+        // [HttpGet("GetPlayersByUser")]
+        // public async Task<IActionResult> GetPlayersByUserId(int userId)
+        // {
+        //     var playersByUserId = await _playerService.GetPlayersByUserId(userId);
+
+        //     if (playersByUserId != null && playersByUserId.Any())
+        //     {
+        //         // Si des joueurs ont été trouvés, retourner la liste
+        //         return Ok(playersByUserId);
+        //     }
+        //     else
+        //     {
+        //         // Si aucun joueur n'a été trouvé, retourner une réponse NoContent ou NotFound
+        //         return NoContent(); // ou NotFound();
+        //     }
+        // }
+
+        [HttpGet("GetPlayerById")]
+        public async Task<IActionResult> GetPlayersById(int playerId)
+        {
+            var players = await _playerService.GetPlayersById(playerId);
+
+            if (players != null && players.Any())
             {
                 // Si des joueurs ont été trouvés, retourner la liste
-                return Ok(playersByUserId);
+                return Ok(players);
             }
             else
             {
@@ -41,71 +88,16 @@ namespace SoGen_AccountManager1.Controllers
 
 
 
-
-        [HttpPost("AddPlayer")]
-        public async Task<IActionResult> AddPlayer(PlayerDTO req)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                // Récupérez l'ID de l'utilisateur connecté à partir des claims
-                var userIdString = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
-
-                if (userIdString != null && int.TryParse(userIdString, out int userId))
-                {
-                    if (userIdString != null)
-                    {
-                        // Map DTO to Domain Model en utilisant l'ID récupéré
-                        var player = new Player
-                        {
-                            Name = req.Name,
-                            Age = req.Age,
-                            Number = req.Number,
-                            Position = req.Position,
-                            Photo = req.Photo,
-                            User_id = userId
-                        };
-
-                        // Domain model to Dto
-                        var response = new PlayerDTO
-                        {
-                            Name = player.Name,
-                            Age = player.Age,
-                            Number = player.Number,
-                            Position = player.Position,
-                            Photo = player.Photo,
-                        };
-
-                        await _playerService.AddPlayer(player);
-                        return Ok(response);
-                    }
-                    else
-                    {
-                        return NotFound("User not found.");
-                    }
-                }
-                else
-                {
-                    return BadRequest("Could not parse the user ID.");
-                }
-            }
-            else
-            {
-                return Unauthorized("User is not authenticated.");
-            }
-        }
-
-
-
         [HttpPut("EditPlayer")]
         public async Task<IActionResult> EditPlayer(PlayerDTO req)
         {
             var player = new Player
             {
-                Id = req.Id,
                 Name = req.Name,
                 Age = req.Age,
                 Number = req.Number,
                 Position = req.Position,
+                Nationality = req.Nationality,
                 Photo = req.Photo
             };
 
@@ -119,11 +111,11 @@ namespace SoGen_AccountManager1.Controllers
         
             var response = new PlayerDTO
             {
-                Id = editedPlayer.Id,
                 Name = editedPlayer.Name,
                 Age = editedPlayer.Age,
                 Number = editedPlayer.Number,
                 Position = editedPlayer.Position,
+                Nationality = editedPlayer.Nationality,
                 Photo = editedPlayer.Photo
             };
 

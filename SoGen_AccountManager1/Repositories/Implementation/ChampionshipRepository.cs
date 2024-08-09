@@ -23,7 +23,12 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             return championship;
         }
 
-        public async Task<Championship> FindChampionshipById(int ChampionshipId)
+        public async Task<IEnumerable<Championship>> GetAllChampionshipsAsync()
+        {
+            return await dbContext.Championships.ToListAsync();
+        }
+
+        public async Task<Championship> GetChampionshipById(int ChampionshipId)
         {
             return await dbContext.Championships.FirstOrDefaultAsync(u => u.Id == ChampionshipId);
         }

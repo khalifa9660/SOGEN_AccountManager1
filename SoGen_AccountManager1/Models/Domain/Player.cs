@@ -14,9 +14,9 @@ namespace SoGen_AccountManager1.Models.Domain
 
         public string Position { get; set; }
 
-        public string Photo { get; set; }
+        public string Nationality { get; set; }
 
-        public int User_id { get; set; }
+        public string Photo { get; set; }
     }
 }
 

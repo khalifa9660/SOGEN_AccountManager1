@@ -6,6 +6,8 @@ namespace SoGen_AccountManager1.Repositories.Interface.IRepository
 	{
 		Task<Team> AddTeam(Team team);
 
-		Task<Team> FindTeamById(int TeamId);
+		Task<IEnumerable<Team>> GetAllTeams();
+
+		Task<Team> GetTeamById(int TeamId);
     }
 }

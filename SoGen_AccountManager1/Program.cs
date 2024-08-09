@@ -11,20 +11,23 @@ using SoGen_AccountManager1.Repositories.Interface.IService;
 using SoGen_AccountManager1.Services.PlayerService;
 using SoGen_AccountManager1.Interface.IExternalApi;
 using SoGen_AccountManager1.Services.UserService;
+using SoGen_AccountManager1.Services.ChampionshipService;
+using SoGen_AccountManager1.Services.TeamService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Récupération de la chaîne de connexion
 var connectionString = builder.Configuration.GetConnectionString("use_env_variable")
     ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
 if (string.IsNullOrEmpty(connectionString))
 {
     connectionString = $"Server={Environment.GetEnvironmentVariable("DB_HOST")};"
-                     + $"port={Environment.GetEnvironmentVariable("DB_PORT")};"
+                     + $"Port={Environment.GetEnvironmentVariable("DB_PORT")};"
                      + $"Database={Environment.GetEnvironmentVariable("DB_NAME")};"
-                     + $"user={Environment.GetEnvironmentVariable("DB_USER")};"
-                     + $"password={Environment.GetEnvironmentVariable("DB_PASSWORD")};"
-                     + "Persist security Info=true;";
+                     + $"User={Environment.GetEnvironmentVariable("DB_USER")};"
+                     + $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")};"
+                     + "Persist Security Info=true;";
 }
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -63,20 +66,28 @@ builder.Services.AddAuthentication(options =>
 
 // Configuration CORS
 var allowedOrigins = (Environment.GetEnvironmentVariable("ALLOWED_ORIGINS") ?? "http://localhost:4200,https://sogen-front1-1.onrender.com").Split(',');
-builder.Services.AddCors(options => options.AddPolicy("FrontEnd", policy =>
+builder.Services.AddCors(options =>
 {
-    policy.WithOrigins(allowedOrigins)
-          .AllowAnyHeader()
-          .AllowAnyMethod()
-          .AllowCredentials();
-}));
+    options.AddPolicy("FrontEnd", policy =>
+    {
+        policy.WithOrigins(allowedOrigins)
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
 
 // Enregistrement des services
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IApiService, ApiService>();
-builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IChampionshipRepository, ChampionshipRepository>();
+builder.Services.AddScoped<IChampionshipService, ChampionshipService>();
+builder.Services.AddScoped<ITeamRepository, TeamRepository>();
+builder.Services.AddScoped<ITeamService, TeamService>();
+
 
 var app = builder.Build();
 
