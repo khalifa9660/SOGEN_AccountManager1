@@ -18,7 +18,8 @@ namespace SoGen_AccountManager1.Services.ChampionshipService
             {
                 Name = championshipDTO.Name,
                 Country = championshipDTO.Country,
-                Founded = championshipDTO.Founded
+                Founded = championshipDTO.Founded,
+                UserId = championshipDTO.UserId
             };
 
             return await _championshipRepository.AddChampionship(Championship);
@@ -33,6 +34,45 @@ namespace SoGen_AccountManager1.Services.ChampionshipService
         {
             return await _championshipRepository.GetChampionshipById(championshipId);
         }
+
+        public async Task<IEnumerable<Championship>> GetChampionshipsByUserId(int userId)
+        {
+            return await _championshipRepository.GetChampionshipByUserId(userId);
+        } 
+
+        public async Task<Championship> EditChampionship(Championship championship)
+        {
+            var championshipToUpdate = await _championshipRepository.GetChampionshipById(championship.Id);
+
+            if(championshipToUpdate != null)
+            {
+                championshipToUpdate.Name = championship.Name;
+                championshipToUpdate.Country = championship.Country;
+
+                await _championshipRepository.UpdateChampionshipAsync(championshipToUpdate);
+            }
+
+             return championship;
+        }
+
+        public async Task<bool> DeleteChampionshipAsync(Championship championship)
+        {
+            bool championshipDeleted = true;
+            var deleteChampionship = await _championshipRepository.GetChampionshipById(championship.Id);
+
+            if(deleteChampionship != null)
+            {
+                await _championshipRepository.DeleteChampionshio(deleteChampionship);
+            }
+            else
+            {
+                championshipDeleted = false;
+            }
+
+            return championshipDeleted;
+        }
+
+        
     }
     
 }

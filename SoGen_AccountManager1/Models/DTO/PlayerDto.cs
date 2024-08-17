@@ -12,4 +12,8 @@ public class PlayerDTO
 
         public string Nationality { get; set; }
 
+        public int TeamId { get; set; }
+
+        public int UserId {get; set;}
+
     }

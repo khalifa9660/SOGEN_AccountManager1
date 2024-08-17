@@ -52,29 +52,47 @@ namespace SoGen_AccountManager1.Controllers
         }
 
 
-        // [HttpGet("GetPlayersByUser")]
-        // public async Task<IActionResult> GetPlayersByUserId(int userId)
-        // {
-        //     var playersByUserId = await _playerService.GetPlayersByUserId(userId);
+        [HttpGet("GetPlayersByUserId")]
+        public async Task<IActionResult> GetPlayersByUserId(int userId)
+        {
+            var playersByUserId = await _playerService.GetPlayersByUserId(userId);
 
-        //     if (playersByUserId != null && playersByUserId.Any())
-        //     {
-        //         // Si des joueurs ont été trouvés, retourner la liste
-        //         return Ok(playersByUserId);
-        //     }
-        //     else
-        //     {
-        //         // Si aucun joueur n'a été trouvé, retourner une réponse NoContent ou NotFound
-        //         return NoContent(); // ou NotFound();
-        //     }
-        // }
+            if (playersByUserId != null && playersByUserId.Any())
+            {
+                // Si des joueurs ont été trouvés, retourner la liste
+                return Ok(playersByUserId);
+            }
+            else
+            {
+                // Si aucun joueur n'a été trouvé, retourner une réponse NoContent ou NotFound
+                return NoContent(); // ou NotFound();
+            }
+        }
 
         [HttpGet("GetPlayerById")]
         public async Task<IActionResult> GetPlayersById(int playerId)
         {
             var players = await _playerService.GetPlayersById(playerId);
 
-            if (players != null && players.Any())
+            if (players != null)
+            {
+                // Si des joueurs ont été trouvés, retourner la liste
+                return Ok(players);
+            }
+            else
+            {
+                // Si aucun joueur n'a été trouvé, retourner une réponse NoContent ou NotFound
+                return NoContent(); // ou NotFound();
+            }
+        }
+
+
+        [HttpGet("GetPlayerByTeamId")]
+        public async Task<IActionResult> GetPlayersByTeamId(int teamId)
+        {
+            var players = await _playerService.GetPlayersByTeamId(teamId);
+
+            if (players != null)
             {
                 // Si des joueurs ont été trouvés, retourner la liste
                 return Ok(players);
@@ -89,16 +107,16 @@ namespace SoGen_AccountManager1.Controllers
 
 
         [HttpPut("EditPlayer")]
-        public async Task<IActionResult> EditPlayer(PlayerDTO req)
+        public async Task<IActionResult> EditPlayer(PlayerDTO playerDTO)
         {
             var player = new Player
             {
-                Name = req.Name,
-                Age = req.Age,
-                Number = req.Number,
-                Position = req.Position,
-                Nationality = req.Nationality,
-                Photo = req.Photo
+                Name = playerDTO.Name,
+                Age = playerDTO.Age,
+                Number = playerDTO.Number,
+                Position = playerDTO.Position,
+                Nationality = playerDTO.Nationality,
+                Photo = playerDTO.Photo
             };
 
             var editedPlayer = await _playerService.EditPlayerAsync(player);
@@ -107,19 +125,10 @@ namespace SoGen_AccountManager1.Controllers
             {
                 return NotFound();
             }
-
-        
-            var response = new PlayerDTO
+            else
             {
-                Name = editedPlayer.Name,
-                Age = editedPlayer.Age,
-                Number = editedPlayer.Number,
-                Position = editedPlayer.Position,
-                Nationality = editedPlayer.Nationality,
-                Photo = editedPlayer.Photo
-            };
-
-            return Ok(response);
+                return Ok(editedPlayer);
+            }
         }
 
 

@@ -17,6 +17,10 @@ namespace SoGen_AccountManager1.Models.Domain
         public string Nationality { get; set; }
 
         public string Photo { get; set; }
+
+        public int UserId {get; set;}
+
+        public int TeamId { get; set; }
     }
 }
 

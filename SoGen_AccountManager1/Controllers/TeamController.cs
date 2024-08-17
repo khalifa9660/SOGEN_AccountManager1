@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SoGen_AccountManager1.Models.Domain;
 using SoGen_AccountManager1.Repositories.Interface.IService;
 
 namespace SoGen_AccountManager1.Controllers
@@ -56,6 +57,75 @@ namespace SoGen_AccountManager1.Controllers
             if(team != null)
             {
                 return Ok(team);
+            }
+            else
+            {
+                return NoContent();
+            }
+        }
+
+        [HttpPost("EditTeam")]
+        public async Task<IActionResult> EditTeam(TeamDTO teamDTO)
+        {
+            var team = new Team
+            {
+                Name = teamDTO.Name,
+                Photo = teamDTO.Photo,
+            };
+
+            var editedTeam = await _teamService.EditTeamAsync(team);
+
+            if(editedTeam != null)
+            {
+                return Ok(editedTeam);
+            }
+            else
+            {
+                return NoContent();
+            }
+        }
+
+
+        [HttpGet("GetTeamsByUserId")]
+        public async Task<ActionResult> GetTeamsByUserId(int userId)
+        {
+            var teams = await _teamService.GetTeamsByUserId(userId);
+
+            if(teams != null)
+            {
+                return Ok(teams);
+            }
+            else 
+            {
+                return NoContent();
+            }
+        }
+
+
+        [HttpGet("GetTeamsByChampionshipId")]
+        public async Task<ActionResult> GetTeamsByChampionshipId(int championshipId)
+        {
+            var teams = await _teamService.GetTeamsByChampionshipId(championshipId);
+
+            if(teams != null)
+            {
+                return Ok(teams);
+            }
+            else
+            {
+                return NoContent();    
+            }
+        }
+
+
+        [HttpDelete("DeleteTeam")]
+        public async Task<ActionResult> deleteTeam(Team team)
+        {
+            bool isDeleted = await _teamService.deleteTeamAsync(team);
+
+            if(isDeleted)
+            {
+                return Ok();
             }
             else
             {
