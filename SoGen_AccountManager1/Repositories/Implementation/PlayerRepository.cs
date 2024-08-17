@@ -39,33 +39,19 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             await _dbContext.SaveChangesAsync();
         }
 
-        // public async Task<IEnumerable<Player>> GetPlayersByUserId(int userId)
-        // {
-        //     return await _dbContext.Players.Where(p => p.UserId == userId).ToListAsync();
-        // }
-
-        public async Task<IEnumerable<Player>> GetPlayersById(int playerId)
+        public async Task<IEnumerable<Player>> GetPlayersByUserId(int userId)
         {
-            return await _dbContext.Players.Where(p => p.Id == playerId).ToListAsync();
+            return await _dbContext.Players.Where(p => p.UserId == userId).ToListAsync();
         }
 
-        public async Task<Player> EditPlayer(Player player)
+        public async Task<IEnumerable<Player>> GetPlayerByTeamId(int teamId)
         {
-           var editPlayer = await _dbContext.Players.FindAsync(player.Id);
+            return await _dbContext.Players.Where(p => p.TeamId == teamId).ToListAsync();
+        }
 
-            if(editPlayer is not null)
-            {
-                editPlayer.Name = player.Name;
-                editPlayer.Age = player.Age;
-                editPlayer.Number = player.Number;
-                editPlayer.Position = player.Position;
-                editPlayer.Nationality = player.Nationality;
-                editPlayer.Photo = player.Photo;
-
-                await _dbContext.SaveChangesAsync();
-            }
-
-            return editPlayer;
+        public async Task<Player> GetPlayersById(int playerId)
+        {
+            return await _dbContext.Players.FirstOrDefaultAsync(p => p.Id == playerId);
         }
 
         public async Task DeletePlayerAsync(int id) // Implémentation de la suppression unique

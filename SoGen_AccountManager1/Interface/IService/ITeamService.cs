@@ -10,5 +10,13 @@ namespace SoGen_AccountManager1.Repositories.Interface.IService
 		Task<IEnumerable<Team>> GetAllTeams();
 
 		Task<Team> GetTeamByid(int teamId);
+
+		Task<IEnumerable<Team>> GetTeamsByChampionshipId(int championshipId);
+
+		Task<IEnumerable<Team>> GetTeamsByUserId(int userId);
+
+		Task<Team> EditTeamAsync(Team team);
+
+		Task<bool> deleteTeamAsync(Team team);
     }
 }

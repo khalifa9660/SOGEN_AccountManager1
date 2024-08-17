@@ -8,15 +8,15 @@ namespace SoGen_AccountManager1.Repositories.Interface.IRepository
 
         Task<IEnumerable<Player>> GetAllPlayers();
 
-        // Task<IEnumerable<Player>> GetPlayersByUserId(int userId);
+        Task<IEnumerable<Player>> GetPlayersByUserId(int userId);
 
-        Task<IEnumerable<Player>> GetPlayersById(int playerId);
+        Task<IEnumerable<Player>> GetPlayerByTeamId(int teamId);
+
+        Task<Player> GetPlayersById(int playerId);
 
         Task<Player> FindPlayerByIdAsync(int id);
 
 		Task UpdatePlayerAsync(Player player);
-
-        Task<Player> EditPlayer(Player player);
 
         Task DeletePlayerAsync(int id);
 

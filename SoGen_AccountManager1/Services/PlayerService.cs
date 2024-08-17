@@ -25,6 +25,8 @@ namespace SoGen_AccountManager1.Services.PlayerService
                 Position = playerDTO.Position,
                 Nationality = playerDTO.Nationality,
                 Photo = playerDTO.Photo,
+                TeamId = playerDTO.TeamId,
+                UserId = playerDTO.UserId
             };
 
             return await _playerRepository.AddPlayerAsync(player);
@@ -37,12 +39,17 @@ namespace SoGen_AccountManager1.Services.PlayerService
 
         
 
-    // public async Task<IEnumerable<Player>> GetPlayersByUserId(int userId)
-    // {
-    //     return await _playerRepository.GetPlayersByUserId(userId);
-    // }
+    public async Task<IEnumerable<Player>> GetPlayersByUserId(int userId)
+    {
+        return await _playerRepository.GetPlayersByUserId(userId);
+    }
 
-        public async Task<IEnumerable<Player>> GetPlayersById(int playerId)
+    public async Task<IEnumerable<Player>> GetPlayersByTeamId(int teamId)
+    {
+        return await _playerRepository.GetPlayerByTeamId(teamId);
+    }
+
+        public async Task<Player> GetPlayersById(int playerId)
         {
             return await _playerRepository.GetPlayersById(playerId);
         }
