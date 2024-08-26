@@ -104,23 +104,21 @@ namespace SoGen_AccountManager1.Controllers
             }
         }
 
-
-
         [HttpPut("EditPlayer")]
-        public async Task<IActionResult> EditPlayer(int playerId, [FromBody] PlayerDTO playerDTO)
+        public async Task<IActionResult> EditPlayer(PlayerDTO playerDTO)
         {
             // Vérifie si le PlayerDTO est valide
-            if (playerDTO == null || playerId != playerDTO.Id)
+            if (playerDTO == null)
             {
                 return BadRequest("Invalid player data.");
             }
 
             // Recherche du joueur existant dans la base de données par son ID
-            var existingPlayer = await _playerService.GetPlayerById(playerId);
+            var existingPlayer = await _playerService.GetPlayerById(playerDTO.Id);
             
             if (existingPlayer == null)
             {
-                return NotFound($"Player with ID {playerId} not found.");
+                return NotFound($"Player with ID not found.");
             }
 
             // Met à jour les propriétés du joueur existant avec les nouvelles valeurs
