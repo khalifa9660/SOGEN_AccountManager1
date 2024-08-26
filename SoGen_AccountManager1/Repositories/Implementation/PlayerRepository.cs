@@ -44,12 +44,12 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             return await _dbContext.Players.Where(p => p.UserId == userId).ToListAsync();
         }
 
-        public async Task<IEnumerable<Player>> GetPlayerByTeamId(int teamId)
+        public async Task<IEnumerable<Player>> GetPlayersByTeamId(int teamId)
         {
             return await _dbContext.Players.Where(p => p.TeamId == teamId).ToListAsync();
         }
 
-        public async Task<Player> GetPlayersById(int playerId)
+        public async Task<Player> GetPlayerById(int playerId)
         {
             return await _dbContext.Players.FirstOrDefaultAsync(p => p.Id == playerId);
         }

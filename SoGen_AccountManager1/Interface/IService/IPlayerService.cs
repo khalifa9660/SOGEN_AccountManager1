@@ -13,7 +13,7 @@ namespace SoGen_AccountManager1.Repositories.Interface.IService
 
 		Task<IEnumerable<Player>> GetPlayersByTeamId(int teamId);
 
-		Task<Player> GetPlayersById(int playerId);
+		Task<Player> GetPlayerById(int playerId);
 
 		Task<Player> EditPlayerAsync(Player player);
 

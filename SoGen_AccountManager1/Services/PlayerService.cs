@@ -46,12 +46,12 @@ namespace SoGen_AccountManager1.Services.PlayerService
 
     public async Task<IEnumerable<Player>> GetPlayersByTeamId(int teamId)
     {
-        return await _playerRepository.GetPlayerByTeamId(teamId);
+        return await _playerRepository.GetPlayersByTeamId(teamId);
     }
 
-        public async Task<Player> GetPlayersById(int playerId)
+        public async Task<Player> GetPlayerById(int playerId)
         {
-            return await _playerRepository.GetPlayersById(playerId);
+            return await _playerRepository.GetPlayerById(playerId);
         }
 
     public async Task<Player> EditPlayerAsync(Player player)

@@ -52,7 +52,7 @@ namespace SoGen_AccountManager1.Controllers
         [HttpGet("GetTeamById/{teamId}")]
         public async Task<IActionResult> GetTeamById(int teamId)
         {
-            var team = await _teamService.GetTeamByid(teamId);
+            var team = await _teamService.GetTeamById(teamId);
 
             if(team != null)
             {

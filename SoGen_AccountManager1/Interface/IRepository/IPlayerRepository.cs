@@ -10,9 +10,9 @@ namespace SoGen_AccountManager1.Repositories.Interface.IRepository
 
         Task<IEnumerable<Player>> GetPlayersByUserId(int userId);
 
-        Task<IEnumerable<Player>> GetPlayerByTeamId(int teamId);
+        Task<IEnumerable<Player>> GetPlayersByTeamId(int teamId);
 
-        Task<Player> GetPlayersById(int playerId);
+        Task<Player> GetPlayerById(int playerId);
 
         Task<Player> FindPlayerByIdAsync(int id);
 

@@ -32,7 +32,7 @@ namespace SoGen_AccountManager1.Services.TeamService
             return await _teamRepository.GetAllTeams();
         }
 
-        public async Task<Team> GetTeamByid(int teamId)
+        public async Task<Team> GetTeamById(int teamId)
         {
             return await _teamRepository.GetTeamById(teamId);
         }

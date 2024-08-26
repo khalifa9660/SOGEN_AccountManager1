@@ -9,7 +9,7 @@ namespace SoGen_AccountManager1.Repositories.Interface.IService
 
 		Task<IEnumerable<Team>> GetAllTeams();
 
-		Task<Team> GetTeamByid(int teamId);
+		Task<Team> GetTeamById(int teamId);
 
 		Task<IEnumerable<Team>> GetTeamsByChampionshipId(int championshipId);
 
