@@ -106,7 +106,7 @@ namespace SoGen_AccountManager1.Controllers
 
 
 
-        [HttpPut("EditPlayer/{playerId}")]
+        [HttpPut("EditPlayer")]
         public async Task<IActionResult> EditPlayer(int playerId, [FromBody] PlayerDTO playerDTO)
         {
             // Vérifie si le PlayerDTO est valide
@@ -130,8 +130,6 @@ namespace SoGen_AccountManager1.Controllers
                 existingPlayer.Position = playerDTO.Position;
                 existingPlayer.Nationality = playerDTO.Nationality;
                 existingPlayer.Photo = playerDTO.Photo;
-                existingPlayer.UserId = playerDTO.UserId;
-                existingPlayer.TeamId = playerDTO.TeamId;
 
             // Appel du service pour enregistrer les modifications
             var editedPlayer = await _playerService.EditPlayerAsync(existingPlayer);
