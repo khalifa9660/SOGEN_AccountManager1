@@ -70,9 +70,9 @@ namespace SoGen_AccountManager1.Controllers
         }
 
         [HttpGet("GetPlayerById/{playerId}")]
-        public async Task<IActionResult> GetPlayersById(int playerId)
+        public async Task<IActionResult> GetPlayerById(int playerId)
         {
-            var players = await _playerService.GetPlayersById(playerId);
+            var players = await _playerService.GetPlayerById(playerId);
 
             if (players != null)
             {
@@ -106,30 +106,47 @@ namespace SoGen_AccountManager1.Controllers
 
 
 
-        [HttpPut("EditPlayer")]
-        public async Task<IActionResult> EditPlayer(PlayerDTO playerDTO)
+        [HttpPut("EditPlayer/{playerId}")]
+        public async Task<IActionResult> EditPlayer(int playerId, [FromBody] PlayerDTO playerDTO)
         {
-            var player = new Player
+            // Vérifie si le PlayerDTO est valide
+            if (playerDTO == null || playerId != playerDTO.Id)
             {
-                Name = playerDTO.Name,
-                Age = playerDTO.Age,
-                Number = playerDTO.Number,
-                Position = playerDTO.Position,
-                Nationality = playerDTO.Nationality,
-                Photo = playerDTO.Photo
-            };
-
-            var editedPlayer = await _playerService.EditPlayerAsync(player);
-
-            if (editedPlayer == null)
-            {
-                return NotFound();
+                return BadRequest("Invalid player data.");
             }
-            else
+
+            // Recherche du joueur existant dans la base de données par son ID
+            var existingPlayer = await _playerService.GetPlayerById(playerId);
+            
+            if (existingPlayer == null)
+            {
+                return NotFound($"Player with ID {playerId} not found.");
+            }
+
+            // Met à jour les propriétés du joueur existant avec les nouvelles valeurs
+                existingPlayer.Name = playerDTO.Name;
+                existingPlayer.Age = playerDTO.Age;
+                existingPlayer.Number = playerDTO.Number;
+                existingPlayer.Position = playerDTO.Position;
+                existingPlayer.Nationality = playerDTO.Nationality;
+                existingPlayer.Photo = playerDTO.Photo;
+                existingPlayer.UserId = playerDTO.UserId;
+                existingPlayer.TeamId = playerDTO.TeamId;
+
+            // Appel du service pour enregistrer les modifications
+            var editedPlayer = await _playerService.EditPlayerAsync(existingPlayer);
+
+            if (editedPlayer != null)
             {
                 return Ok(editedPlayer);
             }
+            else
+            {
+                // Si l'édition échoue, retourne un statut 500 (Internal Server Error)
+                return StatusCode(500, "An error occurred while updating the player.");
+            }
         }
+
 
 
         [HttpDelete("Delete/{ids}")]
