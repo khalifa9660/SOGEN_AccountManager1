@@ -48,7 +48,7 @@ namespace SoGen_AccountManager1.Controllers
              }
         }
 
-        [HttpGet("GetChampionshipById")]
+        [HttpGet("GetChampionshipById/{championshipId}")]
         public async Task<IActionResult> GetChampionshipById(int championshipId)
         {
             var championship = await _championshipService.GetChampionshipById(championshipId);
@@ -62,6 +62,22 @@ namespace SoGen_AccountManager1.Controllers
                 return NoContent();
             }
         }
+
+        [HttpGet("GetChampionshipByUserId/{userId}")]
+        public async Task<ActionResult> GetChampionshipByUserId(int userId)
+        {
+            var championships = await _championshipService.GetChampionshipsByUserId(userId);
+
+            if(championships != null)
+            {
+                return Ok(championships);
+            }
+            else 
+            {
+                return NoContent();
+            }
+        }
+        
 
         [HttpPost("EditChampionship")]
         public async Task<IActionResult> EditChampionship(ChampionshipDTO championshipDTO)
@@ -83,22 +99,6 @@ namespace SoGen_AccountManager1.Controllers
             return NoContent();
         }
             
-        }
-
-
-        [HttpGet("GetChampionshipByUserId")]
-        public async Task<ActionResult> GetChampionshipByUserId(int userId)
-        {
-            var championships = await _championshipService.GetChampionshipsByUserId(userId);
-
-            if(championships != null)
-            {
-                return Ok(championships);
-            }
-            else 
-            {
-                return NoContent();
-            }
         }
 
 

@@ -52,7 +52,7 @@ namespace SoGen_AccountManager1.Controllers
         }
 
 
-        [HttpGet("GetPlayersByUserId")]
+        [HttpGet("GetPlayersByUserId/{userId}")]
         public async Task<IActionResult> GetPlayersByUserId(int userId)
         {
             var playersByUserId = await _playerService.GetPlayersByUserId(userId);
@@ -69,7 +69,7 @@ namespace SoGen_AccountManager1.Controllers
             }
         }
 
-        [HttpGet("GetPlayerById")]
+        [HttpGet("GetPlayerById/{playerId}")]
         public async Task<IActionResult> GetPlayersById(int playerId)
         {
             var players = await _playerService.GetPlayersById(playerId);
@@ -87,7 +87,7 @@ namespace SoGen_AccountManager1.Controllers
         }
 
 
-        [HttpGet("GetPlayerByTeamId")]
+        [HttpGet("GetPlayerByTeamId/{teamId}")]
         public async Task<IActionResult> GetPlayersByTeamId(int teamId)
         {
             var players = await _playerService.GetPlayersByTeamId(teamId);

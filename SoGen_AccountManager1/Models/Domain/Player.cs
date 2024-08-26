@@ -10,7 +10,7 @@ namespace SoGen_AccountManager1.Models.Domain
 
         public int Age { get; set; }
 
-        public int? Number { get; set; }
+        public int Number { get; set; }
 
         public string Position { get; set; }
 
@@ -18,9 +18,9 @@ namespace SoGen_AccountManager1.Models.Domain
 
         public string Photo { get; set; }
 
-        public int UserId {get; set;}
+        public int? UserId {get; set;}
 
-        public int TeamId { get; set; }
+        public int? TeamId { get; set; }
     }
 }
 
