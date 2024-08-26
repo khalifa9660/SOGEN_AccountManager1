@@ -24,7 +24,7 @@ namespace SoGen_AccountManager1.Repositories.Implementation
 
         public async Task<IEnumerable<Player>> GetAllPlayers()
         {
-            return await _dbContext.Players.ToListAsync();
+            return await _dbContext.Players.Where(p => p.UserId == null).ToListAsync();
         }
 
         

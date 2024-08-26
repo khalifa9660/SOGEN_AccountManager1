@@ -4,7 +4,7 @@ public class PlayerDTO
 
         public int Age { get; set; }
 
-        public int? Number { get; set; }
+        public int Number { get; set; }
 
         public string Position { get; set; }
 
@@ -12,8 +12,8 @@ public class PlayerDTO
 
         public string Nationality { get; set; }
 
-        public int TeamId { get; set; }
+        public int? TeamId { get; set; }
 
-        public int UserId {get; set;}
+        public int? UserId {get; set;}
 
     }

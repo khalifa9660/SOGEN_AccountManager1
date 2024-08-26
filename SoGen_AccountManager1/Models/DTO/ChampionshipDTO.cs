@@ -6,6 +6,6 @@
 
         public DateTime Founded { get; set; }
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
     }
