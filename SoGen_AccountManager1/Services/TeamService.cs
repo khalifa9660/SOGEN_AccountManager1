@@ -32,6 +32,11 @@ namespace SoGen_AccountManager1.Services.TeamService
             return await _teamRepository.GetAllTeams();
         }
 
+        public async Task<IEnumerable<Team>> GetAllTeamsWithoutUserId()
+        {
+            return await _teamRepository.GetAllTeamsWithoutUserId();
+        }
+
         public async Task<Team> GetTeamById(int teamId)
         {
             return await _teamRepository.GetTeamById(teamId);

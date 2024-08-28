@@ -22,7 +22,7 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             return player;
         }
 
-        public async Task<IEnumerable<Player>> GetAllPlayers()
+        public async Task<IEnumerable<Player>> GetAllPlayersWithoutUserId()
         {
             return await _dbContext.Players.Where(p => p.UserId == null).ToListAsync();
         }

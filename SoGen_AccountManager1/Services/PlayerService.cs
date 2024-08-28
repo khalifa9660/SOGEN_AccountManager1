@@ -32,9 +32,9 @@ namespace SoGen_AccountManager1.Services.PlayerService
             return await _playerRepository.AddPlayerAsync(player);
         }
 
-        public async Task<IEnumerable<Player>> GetAllPlayers()
+        public async Task<IEnumerable<Player>> GetAllPlayersWithoutUserId()
         {
-            return await _playerRepository.GetAllPlayers();
+            return await _playerRepository.GetAllPlayersWithoutUserId();
         }
 
         

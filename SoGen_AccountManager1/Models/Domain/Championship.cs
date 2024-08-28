@@ -9,11 +9,11 @@ namespace SoGen_AccountManager1.Models.Domain
 
         public string Country { get; set; }
 
+        public string Photo { get; set; }
+
         public DateTime Founded { get; set; }
 
         public int? UserId {get; set;}
-
-
 
     }
 }

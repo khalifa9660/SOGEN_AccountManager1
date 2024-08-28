@@ -23,15 +23,20 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             return championship;
         }
 
+        public async Task<IEnumerable<Championship>> GetAllChampionshipsAsync()
+        {
+            return await _dbContext.Championships.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Championship>> GetAllChampionshipsWithoutUserIdAsync()
+        {
+            return await _dbContext.Championships.Where(p => p.UserId == null).ToListAsync();
+        }
+
         public async Task UpdateChampionshipAsync(Championship championship)
         {
             _dbContext.Championships.Update(championship);
             await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<Championship>> GetAllChampionshipsAsync()
-        {
-            return await _dbContext.Championships.Where(p => p.UserId == null).ToListAsync();
         }
 
         public async Task<Championship> GetChampionshipById(int ChampionshipId)

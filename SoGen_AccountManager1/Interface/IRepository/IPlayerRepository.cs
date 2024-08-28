@@ -6,7 +6,7 @@ namespace SoGen_AccountManager1.Repositories.Interface.IRepository
 	{
         Task<Player> AddPlayerAsync(Player player);
 
-        Task<IEnumerable<Player>> GetAllPlayers();
+        Task<IEnumerable<Player>> GetAllPlayersWithoutUserId();
 
         Task<IEnumerable<Player>> GetPlayersByUserId(int userId);
 

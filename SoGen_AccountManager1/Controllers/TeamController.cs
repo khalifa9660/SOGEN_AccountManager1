@@ -39,7 +39,7 @@ namespace SoGen_AccountManager1.Controllers
         {
             try
             {
-                var Teams = await _teamService.GetAllTeams();
+                var Teams = await _teamService.GetAllTeamsWithoutUserId();
                 return Ok(Teams);
             }
             catch (Exception ex)
@@ -67,21 +67,26 @@ namespace SoGen_AccountManager1.Controllers
         [HttpPost("EditTeam")]
         public async Task<IActionResult> EditTeam(TeamDTO teamDTO)
         {
-            var team = new Team
-            {
-                Name = teamDTO.Name,
-                Photo = teamDTO.Photo,
-            };
+            if(teamDTO == null){
+                return BadRequest("Invalid Team data");
+            }
 
-            var editedTeam = await _teamService.EditTeamAsync(team);
+            var existingTeam = await _teamService.GetTeamById(teamDTO.Id);
 
-            if(editedTeam != null)
-            {
+            if(existingTeam == null){
+                return NotFound("Team with ID not found");
+            }
+
+            existingTeam.Name = teamDTO.Name;
+            existingTeam.Photo = teamDTO.Photo;
+
+            var editedTeam = await _teamService.EditTeamAsync(existingTeam);
+
+            if(editedTeam != null){
                 return Ok(editedTeam);
             }
-            else
-            {
-                return NoContent();
+            else{
+                return StatusCode(500,"An error occurred while updating the team.");
             }
         }
 

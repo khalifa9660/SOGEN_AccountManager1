@@ -41,7 +41,7 @@ namespace SoGen_AccountManager1.Controllers
         {
             try
             {
-                var allPlayers = await _playerService.GetAllPlayers();
+                var allPlayers = await _playerService.GetAllPlayersWithoutUserId();
                 return Ok(allPlayers);
             }
             catch (Exception ex)

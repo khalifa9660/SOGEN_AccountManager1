@@ -8,6 +8,8 @@ namespace SoGen_AccountManager1.Repositories.Interface.IRepository
 
 		Task<IEnumerable<Team>> GetAllTeams();
 
+		Task<IEnumerable<Team>> GetAllTeamsWithoutUserId();
+
 		Task<Team> GetTeamById(int TeamId);
 
 		Task<IEnumerable<Team>> GetTeamByChampionshipId(int championshipId);

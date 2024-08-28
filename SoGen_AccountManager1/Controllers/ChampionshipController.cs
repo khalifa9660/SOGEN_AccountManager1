@@ -39,7 +39,7 @@ namespace SoGen_AccountManager1.Controllers
         {
              try
              {
-                var allChampionship = await _championshipService.GetAllChampionships();
+                var allChampionship = await _championshipService.GetAllChampionshipsWithoutUserIdAsync();
                 return Ok(allChampionship);
              }
              catch
@@ -82,22 +82,31 @@ namespace SoGen_AccountManager1.Controllers
         [HttpPost("EditChampionship")]
         public async Task<IActionResult> EditChampionship(ChampionshipDTO championshipDTO)
         {
-            var championship = new Championship
-        {
-            Name = championshipDTO.Name,
-            Country = championshipDTO.Country
-        };
+            if(championshipDTO == null)
+            {
+                return BadRequest("Invalid League data");
+            }
 
-        var editedChampionship = await _championshipService.EditChampionship(championship);
+            var existingLeague = await _championshipService.GetChampionshipById(championshipDTO.Id);
 
-        if(editedChampionship != null)
-        {
-            return Ok(editedChampionship);
-        } 
-        else
-        {
-            return NoContent();
-        }
+            if(existingLeague == null)
+            {
+                return NotFound("Team with ID not found");
+            }
+
+            existingLeague.Name = championshipDTO.Name;
+            existingLeague.Country = championshipDTO.Country;
+
+            var editedTeam = await _championshipService.EditChampionship(existingLeague);
+
+            if(editedTeam != null)
+            {
+                return Ok(editedTeam);
+            }
+            else
+            {
+                return StatusCode(500, "An error occurred while updated the league");
+            }
             
         }
 
