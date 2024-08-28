@@ -7,7 +7,7 @@ namespace SoGen_AccountManager1.Repositories.Interface.IService
 	{
 		Task<Team> AddTeamAsync(TeamDTO teamDTO);
 
-		Task<IEnumerable<Team>> GetAllTeams();
+		Task<IEnumerable<Team>> GetAllTeamsWithoutUserId();
 
 		Task<Team> GetTeamById(int teamId);
 

@@ -25,6 +25,11 @@ namespace SoGen_AccountManager1.Repositories.Implementation
 
         public async Task<IEnumerable<Team>> GetAllTeams()
         {
+            return await _dbContext.Teams.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Team>> GetAllTeamsWithoutUserId()
+        {
             return await _dbContext.Teams.Where(p => p.UserId == null).ToListAsync();
         }
 

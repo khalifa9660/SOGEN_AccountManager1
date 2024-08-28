@@ -18,6 +18,7 @@ namespace SoGen_AccountManager1.Services.ChampionshipService
             {
                 Name = championshipDTO.Name,
                 Country = championshipDTO.Country,
+                Photo = championshipDTO.Photo,
                 Founded = championshipDTO.Founded,
                 UserId = championshipDTO.UserId
             };
@@ -25,9 +26,9 @@ namespace SoGen_AccountManager1.Services.ChampionshipService
             return await _championshipRepository.AddChampionship(Championship);
         }
 
-        public async Task<IEnumerable<Championship>> GetAllChampionships()
+        public async Task<IEnumerable<Championship>> GetAllChampionshipsWithoutUserIdAsync()
         {
-            return await _championshipRepository.GetAllChampionshipsAsync();
+            return await _championshipRepository.GetAllChampionshipsWithoutUserIdAsync();
         }
 
         public async Task<Championship> GetChampionshipById(int championshipId)
@@ -48,6 +49,7 @@ namespace SoGen_AccountManager1.Services.ChampionshipService
             {
                 championshipToUpdate.Name = championship.Name;
                 championshipToUpdate.Country = championship.Country;
+                championshipToUpdate.Photo = championship.Photo;
 
                 await _championshipRepository.UpdateChampionshipAsync(championshipToUpdate);
             }
