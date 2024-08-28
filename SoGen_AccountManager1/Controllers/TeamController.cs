@@ -33,13 +33,28 @@ namespace SoGen_AccountManager1.Controllers
             }
         }
 
-        [HttpGet("GetAllTeams")]
+        [HttpGet("GetAllTeamsWithoutUserId")]
+
+        public async Task<IActionResult> GetAllTeamsWithoutUserId()
+        {
+            try
+            {
+                var Teams = await _teamService.GetAllTeamsWithoutUserId();
+                return Ok(Teams);
+            }
+            catch (Exception ex)
+            {
+                return NoContent();
+            }
+        }
+
+                [HttpGet("GetAllTeams")]
 
         public async Task<IActionResult> GetAllTeams()
         {
             try
             {
-                var Teams = await _teamService.GetAllTeamsWithoutUserId();
+                var Teams = await _teamService.GetAllTeams();
                 return Ok(Teams);
             }
             catch (Exception ex)

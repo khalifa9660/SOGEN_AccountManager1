@@ -9,6 +9,8 @@ namespace SoGen_AccountManager1.Repositories.Interface.IService
 
 		Task<IEnumerable<Team>> GetAllTeamsWithoutUserId();
 
+		Task<IEnumerable<Team>> GetAllTeams();
+
 		Task<Team> GetTeamById(int teamId);
 
 		Task<IEnumerable<Team>> GetTeamsByChampionshipId(int championshipId);

@@ -31,6 +31,11 @@ namespace SoGen_AccountManager1.Services.ChampionshipService
             return await _championshipRepository.GetAllChampionshipsWithoutUserIdAsync();
         }
 
+        public async Task<IEnumerable<Championship>> GetAllChampionshipsAsync()
+        {
+            return await _championshipRepository.GetAllChampionshipsAsync();
+        }
+
         public async Task<Championship> GetChampionshipById(int championshipId)
         {
             return await _championshipRepository.GetChampionshipById(championshipId);
