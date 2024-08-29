@@ -20,16 +20,16 @@ namespace SoGen_AccountManager1.Controllers
         }
 
         [HttpPost("AddChampionship")]
-        public async Task<IActionResult> AddChampionship(ChampionshipDTO championshipDTO)
+        public async Task<IActionResult> AddChampionship([FromBody] ChampionshipDTO championshipDTO)
         {
             try
             {
                 var championship = await _championshipService.AddChampionshipAsync(championshipDTO);
                 return Ok(championshipDTO);
             } 
-            catch
+            catch (Exception ex)
             {
-                return NoContent();
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -42,10 +42,10 @@ namespace SoGen_AccountManager1.Controllers
                 var allChampionship = await _championshipService.GetAllChampionshipsWithoutUserIdAsync();
                 return Ok(allChampionship);
              }
-             catch
-             {
-                return NoContent();
-             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet("GetAllChampionships")]
@@ -57,10 +57,10 @@ namespace SoGen_AccountManager1.Controllers
                 var allChampionship = await _championshipService.GetAllChampionshipsAsync();
                 return Ok(allChampionship);
              }
-             catch
-             {
-                return NoContent();
-             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet("GetChampionshipById/{championshipId}")]
