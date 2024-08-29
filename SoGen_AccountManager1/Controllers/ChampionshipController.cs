@@ -111,6 +111,7 @@ namespace SoGen_AccountManager1.Controllers
 
             existingLeague.Name = championshipDTO.Name;
             existingLeague.Country = championshipDTO.Country;
+            existingLeague.Photo = championshipDTO.Photo;
 
             var editedTeam = await _championshipService.EditChampionship(existingLeague);
 
