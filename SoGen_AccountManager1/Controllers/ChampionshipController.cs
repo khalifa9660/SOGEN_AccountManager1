@@ -94,7 +94,7 @@ namespace SoGen_AccountManager1.Controllers
         }
         
 
-        [HttpPost("EditChampionship")]
+        [HttpPut("EditChampionship")]
         public async Task<IActionResult> EditChampionship(ChampionshipDTO championshipDTO)
         {
             if(championshipDTO == null)
