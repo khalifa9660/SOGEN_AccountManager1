@@ -79,7 +79,7 @@ namespace SoGen_AccountManager1.Controllers
             }
         }
 
-        [HttpPost("EditTeam")]
+        [HttpPut("EditTeam")]
         public async Task<IActionResult> EditTeam(TeamDTO teamDTO)
         {
             if(teamDTO == null){
