@@ -62,14 +62,14 @@ namespace SoGen_AccountManager1.Services.ChampionshipService
              return championship;
         }
 
-        public async Task<bool> DeleteChampionshipAsync(Championship championship)
+        public async Task<bool> DeleteChampionshipAsync(int Id)
         {
             bool championshipDeleted = true;
-            var deleteChampionship = await _championshipRepository.GetChampionshipById(championship.Id);
+            var deleteChampionship = await _championshipRepository.GetChampionshipById(Id);
 
             if(deleteChampionship != null)
             {
-                await _championshipRepository.DeleteChampionshio(deleteChampionship);
+                await _championshipRepository.DeleteChampionship(deleteChampionship.Id);
             }
             else
             {

@@ -69,14 +69,14 @@ namespace SoGen_AccountManager1.Services.TeamService
             return teamToUpdate;
         }
 
-        public async Task<bool> deleteTeamAsync(Team team)
+        public async Task<bool> deleteTeamAsync(int Id)
         {
             bool teamDeleted = true;
-            var teamToDelete = await _teamRepository.GetTeamById(team.Id);
+            var teamToDelete = await _teamRepository.GetTeamById(Id);
 
             if(teamToDelete != null)
             {
-                await _teamRepository.DeleteTeam(teamToDelete);
+                await _teamRepository.DeleteTeam(teamToDelete.Id);
             }
             else
             {

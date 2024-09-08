@@ -18,6 +18,6 @@ namespace SoGen_AccountManager1.Repositories.Interface.IService
 
 		Task<Championship> EditChampionship(Championship championship);
 
-		Task<bool> DeleteChampionshipAsync(Championship championship);
+		Task<bool> DeleteChampionshipAsync(int Id);
     }
 }

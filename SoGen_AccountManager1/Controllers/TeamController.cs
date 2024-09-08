@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SoGen_AccountManager1.Models.Domain;
 using SoGen_AccountManager1.Repositories.Interface.IService;
+using SoGen_AccountManager1.Services.PlayerService;
 
 namespace SoGen_AccountManager1.Controllers
 {
@@ -14,9 +14,12 @@ namespace SoGen_AccountManager1.Controllers
     {
         private readonly ITeamService _teamService;
 
-        public TeamController(ITeamService teamService)
+        private readonly IPlayerService _PlayerService;
+
+        public TeamController(ITeamService teamService, IPlayerService playerService)
         {
             _teamService = teamService;
+            _PlayerService = playerService;
         }
 
         [HttpPost("AddTeam")]
@@ -44,7 +47,7 @@ namespace SoGen_AccountManager1.Controllers
             }
             catch (Exception ex)
             {
-                return NoContent();
+                return NotFound();
             }
         }
 
@@ -59,7 +62,7 @@ namespace SoGen_AccountManager1.Controllers
             }
             catch (Exception ex)
             {
-                return NoContent();
+                return NotFound();
             }
         }
 
@@ -75,7 +78,7 @@ namespace SoGen_AccountManager1.Controllers
             }
             else
             {
-                return NoContent();
+                return NotFound();
             }
         }
 
@@ -101,7 +104,7 @@ namespace SoGen_AccountManager1.Controllers
                 return Ok(editedTeam);
             }
             else{
-                return StatusCode(500,"An error occurred while updating the team.");
+                return BadRequest("An error occurred while updating the team.");
             }
         }
 
@@ -117,7 +120,7 @@ namespace SoGen_AccountManager1.Controllers
             }
             else 
             {
-                return NoContent();
+                return NotFound();
             }
         }
 
@@ -133,15 +136,22 @@ namespace SoGen_AccountManager1.Controllers
             }
             else
             {
-                return NoContent();    
+                return NotFound();    
             }
         }
 
 
-        [HttpDelete("DeleteTeam")]
-        public async Task<ActionResult> deleteTeam(Team team)
+        [HttpDelete("DeleteTeam/{id}")]
+        public async Task<ActionResult> deleteTeam(int id)
         {
-            bool isDeleted = await _teamService.deleteTeamAsync(team);
+            var checkIfPlayersExistsAsync = await _PlayerService.GetPlayersByTeamId(id);
+            
+            if(checkIfPlayersExistsAsync != null && checkIfPlayersExistsAsync.Any()){
+                var playerIds = checkIfPlayersExistsAsync.Select(player => player.Id).ToList();
+                await _PlayerService.DeletePlayersAsync(playerIds);
+            }
+
+            bool isDeleted = await _teamService.deleteTeamAsync(id);
 
             if(isDeleted)
             {
@@ -149,7 +159,7 @@ namespace SoGen_AccountManager1.Controllers
             }
             else
             {
-                return NoContent();
+                return StatusCode(500, "An error occurred while deleting the team.");
             }
         }
 
