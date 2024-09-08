@@ -19,7 +19,7 @@ namespace SoGen_AccountManager1.Services.TeamService
             {
                 Name = teamDTO.Name,
                 Photo = teamDTO.Photo,
-                Founded = teamDTO.Founded,
+                Founded = DateTime.UtcNow,
                 ChampionshipId = teamDTO.ChampionshipId,
                 UserId = teamDTO.UserId
             };

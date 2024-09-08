@@ -10,6 +10,6 @@ public class UserDTO
 
         public string Email { get; set; }
 
-        public DateTime Founded {get; set;}
+        public DateTime CreatedDate {get; set;}
 
 }
