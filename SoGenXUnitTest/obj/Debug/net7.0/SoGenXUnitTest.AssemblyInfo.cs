@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SoGenXUnitTest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2edae61ca63ea6f3da2ad1c30b087151467f2ce5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+acac502a55188f59b4e976eef6e2280b5e157450")]
 [assembly: System.Reflection.AssemblyProductAttribute("SoGenXUnitTest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SoGenXUnitTest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
