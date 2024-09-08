@@ -13,10 +13,14 @@ namespace SoGen_AccountManager1.Controllers
     public class ChampionshipController : ControllerBase
     {
         private readonly IChampionshipService _championshipService;
+        private readonly ITeamService _teamService;
+        private readonly IPlayerService _playerService;
 
-        public ChampionshipController(IChampionshipService championshipService)
+        public ChampionshipController(IChampionshipService championshipService, ITeamService teamService, IPlayerService playerService)
         {
             _championshipService = championshipService;
+            _teamService = teamService;
+            _playerService = playerService;
         }
 
         [HttpPost("AddChampionship")]
@@ -127,10 +131,28 @@ namespace SoGen_AccountManager1.Controllers
         }
 
 
-        [HttpDelete("DeleteChampionship")]
-        public async Task<ActionResult> deleteChampionship(Championship championship)
+        [HttpDelete("DeleteChampionship/{id}")]
+        public async Task<ActionResult> deleteChampionship(int id)
         {
-            bool isDeleted = await _championshipService.DeleteChampionshipAsync(championship);
+            var checkIfTeamExistsAsync = await _teamService.GetTeamsByChampionshipId(id);
+
+            if(checkIfTeamExistsAsync != null && checkIfTeamExistsAsync.Any())
+            {
+                foreach(var team in checkIfTeamExistsAsync)
+                {
+                    var playersToDelete = await _playerService.GetPlayersByTeamId(team.Id);
+
+                    if(playersToDelete != null && playersToDelete.Any())
+                    {
+                        var playerIds = playersToDelete.Select(player => player.Id).ToList();
+                        await _playerService.DeletePlayersAsync(playerIds);
+                    }
+
+                    await _teamService.deleteTeamAsync(team.Id);
+                }
+            }
+
+            bool isDeleted = await _championshipService.DeleteChampionshipAsync(id);
 
             if(isDeleted)
             {
@@ -138,7 +160,7 @@ namespace SoGen_AccountManager1.Controllers
             }
             else 
             {
-                return NoContent();
+                return StatusCode(500, "An error occurred while deleting the league");
             }
 
         }

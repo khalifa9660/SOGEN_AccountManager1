@@ -49,10 +49,19 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             return await _dbContext.Championships.Where(p => p.UserId == userId).ToListAsync();
         }
 
-        public async Task DeleteChampionshio(Championship championship)
+        public async Task<bool> DeleteChampionship(int Id)
         {
+            var championship = await _dbContext.Championships.FindAsync(Id);
+
+            if(championship == null)
+            {
+                return false;
+            }
+
              _dbContext.Championships.Remove(championship);
              await _dbContext.SaveChangesAsync();
+
+             return true;
         }
 
     }

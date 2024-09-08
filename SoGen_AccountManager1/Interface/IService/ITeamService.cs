@@ -19,6 +19,6 @@ namespace SoGen_AccountManager1.Repositories.Interface.IService
 
 		Task<Team> EditTeamAsync(Team team);
 
-		Task<bool> deleteTeamAsync(Team team);
+		Task<bool> deleteTeamAsync(int id);
     }
 }

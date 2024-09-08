@@ -56,10 +56,20 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteTeam(Team team)
+        public async Task<bool> DeleteTeam(int id)
         {
-            _dbContext.Remove(team);
+            var team = await _dbContext.Teams.FindAsync(id);
+
+            if (team == null)
+            {
+                return false;
+            }
+
+            _dbContext.Teams.Remove(team);
+
             await _dbContext.SaveChangesAsync();
+
+            return true;
         }
 
     }

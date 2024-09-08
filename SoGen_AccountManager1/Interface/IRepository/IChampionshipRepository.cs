@@ -16,6 +16,6 @@ namespace SoGen_AccountManager1.Repositories.Interface.IRepository
 
 		Task<IEnumerable<Championship>> GetChampionshipByUserId(int userId);
 
-		Task DeleteChampionshio(Championship championship);
+		Task<bool> DeleteChampionship(int Id);
     }
 }

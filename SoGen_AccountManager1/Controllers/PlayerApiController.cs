@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SoGen_AccountManager1.Models.Domain;
 using SoGen_AccountManager1.Repositories.Interface.IService;
 
 namespace SoGen_AccountManager1.Controllers
@@ -47,7 +46,7 @@ namespace SoGen_AccountManager1.Controllers
             catch (Exception ex)
             {
                 
-                return NoContent();
+                return NotFound(ex.Message);
             }
         }
 
@@ -59,13 +58,11 @@ namespace SoGen_AccountManager1.Controllers
 
             if (playersByUserId != null && playersByUserId.Any())
             {
-                // Si des joueurs ont été trouvés, retourner la liste
                 return Ok(playersByUserId);
             }
             else
             {
-                // Si aucun joueur n'a été trouvé, retourner une réponse NoContent ou NotFound
-                return NoContent(); // ou NotFound();
+                return NotFound();
             }
         }
 
@@ -76,13 +73,11 @@ namespace SoGen_AccountManager1.Controllers
 
             if (players != null)
             {
-                // Si des joueurs ont été trouvés, retourner la liste
                 return Ok(players);
             }
             else
             {
-                // Si aucun joueur n'a été trouvé, retourner une réponse NoContent ou NotFound
-                return NoContent(); // ou NotFound();
+                return NotFound();
             }
         }
 
@@ -94,20 +89,17 @@ namespace SoGen_AccountManager1.Controllers
 
             if (players != null)
             {
-                // Si des joueurs ont été trouvés, retourner la liste
                 return Ok(players);
             }
             else
             {
-                // Si aucun joueur n'a été trouvé, retourner une réponse NoContent ou NotFound
-                return NoContent(); // ou NotFound();
+                return NotFound();
             }
         }
 
         [HttpPut("EditPlayer")]
         public async Task<IActionResult> EditPlayer(PlayerDTO playerDTO)
         {
-            // Vérifie si le PlayerDTO est valide
             if (playerDTO == null)
             {
                 return BadRequest("Invalid player data.");
@@ -129,7 +121,6 @@ namespace SoGen_AccountManager1.Controllers
                 existingPlayer.Nationality = playerDTO.Nationality;
                 existingPlayer.Photo = playerDTO.Photo;
 
-            // Appel du service pour enregistrer les modifications
             var editedPlayer = await _playerService.EditPlayerAsync(existingPlayer);
 
             if (editedPlayer != null)
@@ -138,7 +129,6 @@ namespace SoGen_AccountManager1.Controllers
             }
             else
             {
-                // Si l'édition échoue, retourne un statut 500 (Internal Server Error)
                 return StatusCode(500, "An error occurred while updating the player.");
             }
         }
@@ -159,7 +149,7 @@ namespace SoGen_AccountManager1.Controllers
             }
             else
             {
-                return NotFound("One or more players not found.");
+                return StatusCode(500, "An error occurred while deleting one or many players.");
             }
         }
 
