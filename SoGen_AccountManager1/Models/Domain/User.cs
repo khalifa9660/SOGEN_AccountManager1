@@ -12,7 +12,7 @@ namespace SoGen_AccountManager1.Models.Domain
 
         public string Password { get; set; }
 
-        public DateTime Founded {get; set;}
+        public DateTime CreatedDate {get; set;}
 
     }
 }

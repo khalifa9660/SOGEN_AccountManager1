@@ -19,7 +19,7 @@ namespace SoGen_AccountManager1.Services.ChampionshipService
                 Name = championshipDTO.Name,
                 Country = championshipDTO.Country,
                 Photo = championshipDTO.Photo,
-                Founded = championshipDTO.Founded,
+                Founded = DateTime.UtcNow,
                 UserId = championshipDTO.UserId
             };
 

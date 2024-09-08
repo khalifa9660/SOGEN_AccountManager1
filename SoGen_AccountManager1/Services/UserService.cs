@@ -39,7 +39,7 @@ namespace SoGen_AccountManager1.Services.UserService
                 LastName = userRegisterDTO.LastName,
                 Email = userRegisterDTO.Email,
                 Password = HashPassword(userRegisterDTO.Password),
-                Founded = DateTime.UtcNow
+                CreatedDate = DateTime.UtcNow
             };
 
             // Ajout de l'utilisateur dans la base de données
