@@ -54,7 +54,7 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             return await _dbContext.Players.FirstOrDefaultAsync(p => p.Id == playerId);
         }
 
-        public async Task DeletePlayerAsync(int id) // Implémentation de la suppression unique
+        public async Task DeletePlayerAsync(int id) 
         {
             var player = await FindPlayerByIdAsync(id);
             if (player != null)
@@ -64,7 +64,7 @@ namespace SoGen_AccountManager1.Repositories.Implementation
             }
         }
 
-        public async Task DeletePlayersAsync(IEnumerable<int> ids) // Méthode existante pour supprimer plusieurs joueurs
+        public async Task DeletePlayersAsync(IEnumerable<int> ids)
         {
             var players = _dbContext.Players.Where(p => ids.Contains(p.Id));
             _dbContext.Players.RemoveRange(players);
