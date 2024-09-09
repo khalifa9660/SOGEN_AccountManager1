@@ -20,18 +20,16 @@ namespace SoGen_AccountManager1.Controllers
         }
 
 
-        [HttpPost("AddPlayer")]
+       [HttpPost("AddPlayer")]
         public async Task<IActionResult> AddPlayer([FromBody] PlayerDTO playerDTO)
         {
-            try
+            if (playerDTO == null)
             {
-                var player = await _playerService.AddPlayerAsync(playerDTO);
-                return Ok(player);
+                return BadRequest("Invalid player data.");
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+
+            var player = await _playerService.AddPlayerAsync(playerDTO);
+            return Ok(player);
         }
 
 
