@@ -23,7 +23,6 @@ namespace SoGen_AccountManager1.Services.UserService
 
         public async Task<(User User, string Token)> RegisterUserAsync(UserRegisterDTO userRegisterDTO)
         {
-            // Validation des champs
             if (string.IsNullOrEmpty(userRegisterDTO.FirstName) || 
                 string.IsNullOrEmpty(userRegisterDTO.LastName) || 
                 string.IsNullOrEmpty(userRegisterDTO.Email) || 
@@ -42,7 +41,6 @@ namespace SoGen_AccountManager1.Services.UserService
                 CreatedDate = DateTime.UtcNow
             };
 
-            // Ajout de l'utilisateur dans la base de données
             await _userRepository.AddUserAsync(user);
 
             // Génération du JWT token
@@ -54,16 +52,13 @@ namespace SoGen_AccountManager1.Services.UserService
 
         public async Task<(User User, string Token)> LoginAsync(string email, string password)
         {
-            // Validation des champs
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
                 throw new ArgumentException("Email and password are required.");
             }
 
-            // Recherche de l'utilisateur par email
             var user = await _userRepository.FindUserByEmailAsync(email);
 
-            // Vérification si l'utilisateur existe et si le mot de passe est correct
             if (user == null || !VerifyPassword(password, user.Password))
             {
                 throw new UnauthorizedAccessException("Invalid email or password.");
@@ -129,7 +124,8 @@ namespace SoGen_AccountManager1.Services.UserService
 					new Claim("Id", user.Id.ToString()), // Convertir l'ID en chaîne
 					new Claim(JwtRegisteredClaimNames.Sub, user.Email),
 					new Claim(JwtRegisteredClaimNames.Email, user.Email),
-					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
 				}),
 				Expires = DateTime.UtcNow.AddHours(4), // Définir la durée de validité du jeton
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),

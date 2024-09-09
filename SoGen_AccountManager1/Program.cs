@@ -41,6 +41,7 @@ builder.Services.AddSwaggerGen();
 
 // Configuration JWT
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication(options =>
 {

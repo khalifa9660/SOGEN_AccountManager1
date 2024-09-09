@@ -27,7 +27,6 @@ namespace SoGen_AccountManager1.Controllers
 					return BadRequest("Invalid request payload");
 				}
 
-				// Vérifiez si l'email existe déjà
 				var emailExist = await _userService.FindByEmailAsync(userRegisterDTO.Email);
 
 				if (emailExist != null)
@@ -35,12 +34,10 @@ namespace SoGen_AccountManager1.Controllers
 					return BadRequest("Email already exists");
 				}
 
-				// Enregistrez l'utilisateur et obtenez le résultat
 				var (user, token) = await _userService.RegisterUserAsync(userRegisterDTO);
 
 				if (user != null)
 				{
-					// Vous pouvez retourner l'utilisateur et le token si nécessaire
 					return Ok(new { User = user, Token = token });
 				}
 				else
@@ -74,7 +71,6 @@ namespace SoGen_AccountManager1.Controllers
 
 				if (user != null)
 				{
-					// Vous pouvez personnaliser les informations que vous voulez renvoyer
 					var userInfo = new
 					{
 						Email = user.Email,
@@ -85,7 +81,6 @@ namespace SoGen_AccountManager1.Controllers
 				}
 				else
 				{
-					// Ce cas ne devrait pas se produire si LoginAsync lance une exception en cas d'échec
 					return Unauthorized("Invalid email or password");
 				}
 			}
