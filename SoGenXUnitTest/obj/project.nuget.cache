@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fw+DojTqMx4=",
+  "dgSpecHash": "H/22Nb2jzYw=",
   "success": true,
-  "projectFilePath": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/SoGenXUnitTest.csproj",
+  "projectFilePath": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SOGEN_AccountManager1/SoGenXUnitTest/SoGenXUnitTest.csproj",
   "expectedPackageFiles": [
     "/Users/khali/.nuget/packages/azure.core/1.35.0/azure.core.1.35.0.nupkg.sha512",
     "/Users/khali/.nuget/packages/azure.identity/1.10.3/azure.identity.1.10.3.nupkg.sha512",

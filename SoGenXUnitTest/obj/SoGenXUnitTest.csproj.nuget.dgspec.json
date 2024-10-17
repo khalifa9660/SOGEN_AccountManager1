@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/SoGenXUnitTest.csproj": {}
+    "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SOGEN_AccountManager1/SoGenXUnitTest/SoGenXUnitTest.csproj": {}
   },
   "projects": {
-    "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/SoGenXUnitTest.csproj": {
+    "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SOGEN_AccountManager1/SoGenXUnitTest/SoGenXUnitTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/SoGenXUnitTest.csproj",
+        "projectUniqueName": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SOGEN_AccountManager1/SoGenXUnitTest/SoGenXUnitTest.csproj",
         "projectName": "SoGenXUnitTest",
-        "projectPath": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/SoGenXUnitTest.csproj",
+        "projectPath": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SOGEN_AccountManager1/SoGenXUnitTest/SoGenXUnitTest.csproj",
         "packagesPath": "/Users/khali/.nuget/packages/",
-        "outputPath": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGenXUnitTest/obj/",
+        "outputPath": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SOGEN_AccountManager1/SoGenXUnitTest/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/khali/.nuget/NuGet/NuGet.Config"
@@ -26,8 +26,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGen_AccountManager1/SoGen_AccountManager1.csproj": {
-                "projectPath": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGen_AccountManager1/SoGen_AccountManager1.csproj"
+              "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SOGEN_AccountManager1/SoGen_AccountManager1/SoGen_AccountManager1.csproj": {
+                "projectPath": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SOGEN_AccountManager1/SoGen_AccountManager1/SoGen_AccountManager1.csproj"
               }
             }
           }
@@ -102,14 +102,14 @@
         }
       }
     },
-    "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGen_AccountManager1/SoGen_AccountManager1.csproj": {
+    "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SOGEN_AccountManager1/SoGen_AccountManager1/SoGen_AccountManager1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGen_AccountManager1/SoGen_AccountManager1.csproj",
+        "projectUniqueName": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SOGEN_AccountManager1/SoGen_AccountManager1/SoGen_AccountManager1.csproj",
         "projectName": "SoGen_AccountManager1",
-        "projectPath": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGen_AccountManager1/SoGen_AccountManager1.csproj",
+        "projectPath": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SOGEN_AccountManager1/SoGen_AccountManager1/SoGen_AccountManager1.csproj",
         "packagesPath": "/Users/khali/.nuget/packages/",
-        "outputPath": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SoGen_AccountManager1/SoGen_AccountManager1/obj/",
+        "outputPath": "/Users/khali/Documents/Informatique/Projets/Official projects/SoGeneration/SOGEN_AccountManager1/SoGen_AccountManager1/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/khali/.nuget/NuGet/NuGet.Config"
