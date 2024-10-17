@@ -1,7 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SoGen_AccountManager1.Data;
 using SoGen_AccountManager1.Models.Domain;
 using SoGen_AccountManager1.Repositories.Interface.IRepository;
